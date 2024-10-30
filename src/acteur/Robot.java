@@ -5,8 +5,8 @@ import environment.Direction;
 
 public abstract class Robot {
     protected Case position;
-    protected double vitesseDeplacement;  // faire évoluer en hashmap ? Pour prendre en compte le changement de vitesse en fonction du chemin
-    protected int tailleReservoir;
+    protected double vitesseDeplacement;    // faire évoluer en hashmap ? Pour prendre en compte le changement de vitesse en fonction du chemin
+    protected int reservoir;                // a quel point le reservoir est rempli, sa taille se trouve dans les classes filles
 
     public Case getPosition() {
         return position;
@@ -16,8 +16,8 @@ public abstract class Robot {
         return vitesseDeplacement;
     }
 
-    public int getTailleReservoir() {
-        return tailleReservoir;
+    public int getReservoir() {
+        return reservoir;
     }
 
     abstract void setPosition (Case case_obj);

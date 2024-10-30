@@ -1,6 +1,7 @@
 package acteur;
 
 import environment.Case;
+import environment.NatureTerrain;
 
 abstract public class RobotAerien extends Robot{
 
@@ -12,4 +13,5 @@ abstract public class RobotAerien extends Robot{
                         : (Math.min(Double.parseDouble(vitesse), vitesseMax)) // vitesse lue dans le fichier ne peux pas être > à vitesse max
         );
     }
+
 }

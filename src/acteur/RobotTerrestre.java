@@ -20,9 +20,4 @@ public abstract class RobotTerrestre extends Robot {
         );
     }
 
-    @Override
-    final void remplirReservoir() {
-        boolean isNextToWater = false;
-
-    }
 }
