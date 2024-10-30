@@ -6,13 +6,16 @@ import environment.Incendie;
 
 import java.util.ArrayList;
 
+
+
+
 public class DonneeSimulation {
-    private Carte carte;
+    private static Carte carte;
     private ArrayList<Incendie> incendies;
     private ArrayList<Robot> robots;
 
 
-    public Carte getCarte() {
+    public static Carte getCarte() {
         return carte;
     }
 
@@ -25,7 +28,7 @@ public class DonneeSimulation {
     }
 
     public void setCarte(Carte carte) {
-        this.carte = carte;
+        DonneeSimulation.carte = carte;
     }
 
     public void setIncendies(ArrayList<Incendie> incendies) {

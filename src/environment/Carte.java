@@ -25,6 +25,12 @@ public class Carte {
         return nbCol;
     }
 
+    public Case[][] getMatriceCase() {
+        return matriceCase;
+    }
+
+
+
     public void setCaseMatrice (int lig, int col, NatureTerrain nature) {
         this.matriceCase[lig][col] = new Case(lig, col, nature);
     }
