@@ -4,9 +4,9 @@ import environment.Case;
 import environment.Direction;
 
 public abstract class Robot {
-    private Case position;
-    private double vitesseDeplacement;  // faire évoluer en hashmap ? Pour prendre en compte le changement de vitesse en fonction du chemin
-    private int tailleReservoir;
+    protected Case position;
+    protected double vitesseDeplacement;  // faire évoluer en hashmap ? Pour prendre en compte le changement de vitesse en fonction du chemin
+    protected int tailleReservoir;
 
     public Case getPosition() {
         return position;
