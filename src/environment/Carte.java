@@ -25,6 +25,22 @@ public class Carte {
         return nbCol;
     }
 
+    public Case[][] getMatriceCase() {
+        return matriceCase;
+    }
+
+
+
+
+    public Case getVoisin(Case src, Direction direction) {
+        return switch (direction) {
+            case NORD -> this.getCase(src.getX(), (Math.min(src.getY() + 1, this.getNbCol())));
+            case SUD -> this.getCase(src.getX(), Math.max(src.getY() - 1, 0));
+            case EST -> this.getCase(Math.min(src.getX() + 1, this.getNblignes()), src.getY());
+            case OUEST -> this.getCase(Math.max(src.getX() - 1, 0), src.getY());
+        };
+    }
+
     public void setCaseMatrice (int lig, int col, NatureTerrain nature) {
         this.matriceCase[lig][col] = new Case(lig, col, nature);
     }

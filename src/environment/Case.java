@@ -19,6 +19,7 @@ public class Case {
         return y;
     }
 
+
     public NatureTerrain getNatureTerrain() {
         return natureTerrain;
     }
