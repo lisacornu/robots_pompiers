@@ -1,8 +1,8 @@
 package acteur;
 
 public enum TypeRobot {
-    ROUE,
+    ROUES,
     CHENILLE,
     PATTES,
-    DRONES
+    DRONE
 }

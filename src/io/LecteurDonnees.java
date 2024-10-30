@@ -48,8 +48,8 @@ public class LecteurDonnees {
         DonneeSimulation donneeSimulation = new DonneeSimulation();
 
         donneeSimulation.setCarte(lecteur.initCarte());
-        donneeSimulation.setIncendies(lecteur.lireIncendies(donneeSimulation.getCarte()));
-        donneeSimulation.setRobots(lecteur.lireRobots(donneeSimulation.getCarte()));
+        donneeSimulation.setIncendies(lecteur.lireIncendies(DonneeSimulation.getCarte()));
+        donneeSimulation.setRobots(lecteur.lireRobots(DonneeSimulation.getCarte()));
 
         scanner.close();
         return donneeSimulation;
@@ -185,7 +185,7 @@ public class LecteurDonnees {
             // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
 
             switch (type) {
-                case ROUE :
+                case ROUES :
                     verifieLigneTerminee();
                     return new RobotRoue(position, s);
                 case CHENILLE:
@@ -194,7 +194,7 @@ public class LecteurDonnees {
                 case PATTES:
                     verifieLigneTerminee();
                     return new RobotPattes(position);
-                case DRONES:
+                case DRONE:
                     verifieLigneTerminee();
                     return new RobotDrone(position, s);
             }
@@ -202,6 +202,7 @@ public class LecteurDonnees {
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. " + "Attendu: ligne colonne type [valeur_specifique]");
         }
+        return null;
     }
 
 

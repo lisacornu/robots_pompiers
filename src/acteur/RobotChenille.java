@@ -17,7 +17,8 @@ public class RobotChenille extends RobotTerrestre {
         super(position, vitesse, vitesseDefaut, vitesseMax);
     }
 
-    public void remplirReservoir (Carte carte) {
+    public void remplirReservoir () {
+        Carte carte = getCarte();
         for (Direction dir : Direction.values()) {
             if (carte.voisinExiste(this.position, dir)
                     && carte.getVoisin(this.position, dir).getNatureTerrain() == NatureTerrain.EAU) {

@@ -3,13 +3,10 @@ package acteur;
 import environment.Carte;
 import environment.Case;
 import environment.Direction;
-import environment.Carte;
 import environment.NatureTerrain;
-
 import static io.DonneeSimulation.getCarte;
 
-import environment.Direction;
-import environment.NatureTerrain;
+
 
 public class RobotRoue extends RobotTerrestre {
     private static final int vitesseDefaut = 80; // km/h
@@ -27,7 +24,8 @@ public class RobotRoue extends RobotTerrestre {
         }
     }
 
-    public void remplirReservoir (Carte carte) {
+    public void remplirReservoir () {
+        Carte carte = getCarte();
         for (Direction dir : Direction.values()) {
             if (carte.voisinExiste(this.position, dir)
                 && carte.getVoisin(this.position, dir).getNatureTerrain() == NatureTerrain.EAU) {
