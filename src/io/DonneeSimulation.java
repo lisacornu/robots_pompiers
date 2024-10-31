@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class DonneeSimulation {
     private static Carte carte;
-    private ArrayList<Incendie> incendies;
+    private static ArrayList<Incendie> incendies;
     private ArrayList<Robot> robots;
 
 
@@ -19,7 +19,7 @@ public class DonneeSimulation {
         return carte;
     }
 
-    public ArrayList<Incendie> getIncendies() {
+    public static ArrayList<Incendie> getIncendies() {
         return incendies;
     }
 
@@ -32,7 +32,7 @@ public class DonneeSimulation {
     }
 
     public void setIncendies(ArrayList<Incendie> incendies) {
-        this.incendies = incendies;
+        DonneeSimulation.incendies = incendies;
     }
 
     public void setRobots(ArrayList<Robot> robots) {

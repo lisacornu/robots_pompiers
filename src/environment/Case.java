@@ -4,11 +4,23 @@ public class Case {
     private final int x;
     private final int y;
     private final NatureTerrain natureTerrain;
+    private boolean isOnFire;
 
-    public Case(int x, int y, NatureTerrain natureTerrain) {
-        this.x = x;
-        this.y = y;
+
+
+    public boolean isOnFire() {
+        return isOnFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        isOnFire = onFire;
+    }
+
+    public Case(boolean isOnFire, NatureTerrain natureTerrain, int y, int x) {
+        this.isOnFire = isOnFire;
         this.natureTerrain = natureTerrain;
+        this.y = y;
+        this.x = x;
     }
 
     public int getX() {

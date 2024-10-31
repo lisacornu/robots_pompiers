@@ -1,24 +1,51 @@
-package io;
+package Simulation;
 
 import environment.Carte;
 import environment.Case;
 import gui.GUISimulator;
 import gui.Rectangle;
 import gui.Simulable;
+import io.DonneeSimulation;
+import io.LecteurDonnees;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 import java.util.zip.DataFormatException;
 
 public class Simulateur implements Simulable{
 
     private final GUISimulator gui;
-
     private final Carte init_carte;
-
     private final DonneeSimulation donneeSimulation;
+    public long dateSimulation;
+    private HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>(); //On utilise une HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements
+                                                                             //Comme cela on a directement tous les évenements associés à la date.
+    public void ajouteEvenement(Evenement e){
+        Evenements.computeIfAbsent(e.date, k -> new ArrayList<Evenement>());
+        Evenements.get(e.date).add(e);
+    }
 
+    public HashMap<Long, ArrayList<Evenement>> getEvenements() {
+        return Evenements;
+    }
+
+
+
+    private void incrementeDate(){
+        this.dateSimulation++;
+    }
+    private boolean simulationTerminee(){
+        Set<Long> dates = Evenements.keySet();
+        for(Long date:dates){
+            if (date > dateSimulation){
+                return false;
+            }
+        }
+        return true;
+    }
 
     private DonneeSimulation initDonneeSimulation(String donnees) throws DataFormatException, FileNotFoundException {
         return LecteurDonnees.lire(donnees);
@@ -72,11 +99,21 @@ public class Simulateur implements Simulable{
 
     @Override
     public void next() {
+        this.dateSimulation++;
+        HashMap<Long, ArrayList<Evenement>> evenements = this.getEvenements();
+        ArrayList<Evenement> eventsToDate = evenements.get(dateSimulation);
+        for (Evenement e : eventsToDate) {
+            e.execute();
+        }
+        draw();
     }
 
     @Override
     public void restart() {
         this.donneeSimulation.setCarte(init_carte);
+        this.dateSimulation = 0;
         draw();
     }
+
+
 }

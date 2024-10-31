@@ -4,8 +4,8 @@ import environment.Case;
 import environment.NatureTerrain;
 import environment.Direction;
 import environment.Carte;
-import io.DonneeSimulation;
 
+import static acteur.TypeRobot.DRONE;
 import static io.DonneeSimulation.getCarte;
 
 public class RobotDrone extends RobotAerien{
@@ -15,6 +15,7 @@ public class RobotDrone extends RobotAerien{
 
     public RobotDrone(Case position, String s) {
         super(position, s, vitesseDefaut, vitesseMax);
+        this.typeRobot = DRONE;
     }
 
     public void remplirReservoir () {

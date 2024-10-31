@@ -15,6 +15,7 @@ public class RobotChenille extends RobotTerrestre {
 
     public RobotChenille(Case position, String vitesse) {
         super(position, vitesse, vitesseDefaut, vitesseMax);
+        this.typeRobot = TypeRobot.CHENILLE;
     }
 
     public void remplirReservoir () {

@@ -14,6 +14,7 @@ public class RobotRoue extends RobotTerrestre {
 
     public RobotRoue(Case position, String vitesse) {
         super(position, vitesse, vitesseDefaut);
+        this.typeRobot = TypeRobot.ROUES;
     }
 
     public void moveNextCase(Direction dir){

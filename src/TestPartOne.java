@@ -1,6 +1,5 @@
 import gui.GUISimulator;
-import io.DonneeSimulation;
-import io.Simulateur;
+import Simulation.Simulateur;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
