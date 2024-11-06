@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class DonneeSimulation {
     private static Carte carte;
     private static ArrayList<Incendie> incendies;
-    private ArrayList<Robot> robots;
+    private static  ArrayList<Robot> robots;
 
 
     public static Carte getCarte() {
@@ -23,9 +23,7 @@ public class DonneeSimulation {
         return incendies;
     }
 
-    public ArrayList<Robot> getRobots() {
-        return robots;
-    }
+    public static ArrayList<Robot> getRobots() {return robots;}
 
     public void setCarte(Carte carte) {
         DonneeSimulation.carte = carte;
@@ -36,6 +34,6 @@ public class DonneeSimulation {
     }
 
     public void setRobots(ArrayList<Robot> robots) {
-        this.robots = robots;
+        DonneeSimulation.robots = robots;
     }
 }

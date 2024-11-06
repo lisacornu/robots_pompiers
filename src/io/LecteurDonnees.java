@@ -100,7 +100,9 @@ public class LecteurDonnees {
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature); // recup la valeur de l'enum
 
             verifieLigneTerminee();
+
             carte.setCaseMatrice(lig, col, nature);
+            carte.getCase(lig,col).setOnFire(false);
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de case invalide. " + "Attendu: nature altitude [valeur_specifique]");

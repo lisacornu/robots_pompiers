@@ -16,8 +16,7 @@ public class Case {
         isOnFire = onFire;
     }
 
-    public Case(boolean isOnFire, NatureTerrain natureTerrain, int y, int x) {
-        this.isOnFire = isOnFire;
+    public Case(NatureTerrain natureTerrain, int y, int x) {
         this.natureTerrain = natureTerrain;
         this.y = y;
         this.x = x;
