@@ -5,13 +5,14 @@ import environment.NatureTerrain;
 
 abstract public class RobotAerien extends Robot{
 
-    protected RobotAerien (Case pos, String vitesse, double vitesseDefaut, double vitesseMax) {
+    protected RobotAerien (Case pos, String vitesse, double vitesseDefaut, double vitesseMax, int tempsRemplissage) {
         super.position = pos;
         super.vitesseDeplacement = (
                 vitesse == null
                         ? vitesseDefaut
                         : (Math.min(Double.parseDouble(vitesse), vitesseMax)) // vitesse lue dans le fichier ne peux pas être > à vitesse max
         );
+        super.tempsRemplissage = tempsRemplissage;
     }
 
 }

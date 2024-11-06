@@ -12,7 +12,7 @@ public class RobotPattes extends RobotTerrestre{
 
     public RobotPattes(Case position) {
 
-        super(position, null, vitesseDefaut);
+        super(position, null,vitesseDefaut,vitesseDefaut,0);
         this.typeRobot = TypeRobot.PATTES;
     }
 

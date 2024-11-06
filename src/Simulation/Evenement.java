@@ -3,7 +3,7 @@ package Simulation;
 import acteur.Robot;
 
 public abstract class Evenement  {
-    protected final long date;
+    protected long date;
     protected int duration;
     protected Robot robot;
 
@@ -17,10 +17,18 @@ public abstract class Evenement  {
         return robot;
     }
 
+    public long getDate() {
+        return date;
+    }
+
+
     public void setRobot(Robot robot) {
         this.robot = robot;
     }
 
     public abstract void execute();
 
+    protected void setDate(long date) {
+        this.date = date;
+    }
 }

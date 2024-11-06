@@ -13,7 +13,7 @@ public class RobotRoue extends RobotTerrestre {
     private static final int tailleReservoir = 5000;
 
     public RobotRoue(Case position, String vitesse) {
-        super(position, vitesse, vitesseDefaut);
+        super(position, vitesse, vitesseDefaut,Double.parseDouble(vitesse), 10 * 60);
         this.typeRobot = TypeRobot.ROUES;
     }
 

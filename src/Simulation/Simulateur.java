@@ -24,22 +24,40 @@ public class Simulateur implements Simulable{
     private final GUISimulator gui;
     private final Carte init_carte;
     private final DonneeSimulation donneeSimulation;
-    public long dateSimulation;
-    private HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>(); //On utilise une HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements
+    private static ArrayList<Evenement> executingEvent;
+
+
+
+    private static long dateSimulation;
+    private static final HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>(); //On utilise une HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements
+
                                                                              //Comme cela on a directement tous les évenements associés à la date.
-    public void ajouteEvenement(Evenement e){
+    public static void ajouteEvenement(Evenement e){
         Evenements.computeIfAbsent(e.date, k -> new ArrayList<Evenement>());
         Evenements.get(e.date).add(e);
+    }
+
+    public static ArrayList<Evenement> getExecutingEvent() {
+        return executingEvent;
+    }
+
+    public static void setExecutingEvent(ArrayList<Evenement> executingEvent) {
+        Simulateur.executingEvent = executingEvent;
+    }
+
+    public static void supprimeEvenement(Evenement e){
+        Evenements.get(e.date).remove(e);
+    }
+
+    public static long getDateSimulation() {
+        return dateSimulation;
     }
 
     public HashMap<Long, ArrayList<Evenement>> getEvenements() {
         return Evenements;
     }
-
-
-
     private void incrementeDate(){
-        this.dateSimulation++;
+        dateSimulation++;
     }
     private boolean simulationTerminee(){
         Set<Long> dates = Evenements.keySet();
@@ -56,8 +74,9 @@ public class Simulateur implements Simulable{
     }
 
 
-    public Simulateur(GUISimulator gui,String donnees) throws DataFormatException, FileNotFoundException {
+    public Simulateur(GUISimulator gui, String donnees) throws DataFormatException, FileNotFoundException {
         this.gui = gui;
+        executingEvent = new ArrayList<Evenement>();
         gui.setSimulable(this);
         this.donneeSimulation = initDonneeSimulation(donnees);
         this.init_carte = DonneeSimulation.getCarte();
@@ -143,11 +162,12 @@ public class Simulateur implements Simulable{
 
     @Override
     public void next() {
-        this.dateSimulation++;
+        dateSimulation++;
         HashMap<Long, ArrayList<Evenement>> evenements = this.getEvenements();
         ArrayList<Evenement> eventsToDate = evenements.get(dateSimulation);
-        for (Evenement e : eventsToDate) {
-            e.execute();
+        executingEvent.addAll(eventsToDate);
+        for(Evenement evenement:executingEvent){
+            evenement.execute();
         }
         draw();
     }
@@ -155,7 +175,7 @@ public class Simulateur implements Simulable{
     @Override
     public void restart() {
         this.donneeSimulation.setCarte(init_carte);
-        this.dateSimulation = 0;
+        dateSimulation = 0;
         draw();
     }
 

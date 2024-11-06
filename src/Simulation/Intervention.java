@@ -15,10 +15,19 @@ public class Intervention extends Evenement {
         super(date, robot);
     }
 
+
+    private void init_execute(){
+
+    }
+
     @Override
     public void execute() {
 
         Case currentCase = super.robot.getPosition();
+
+        //faire un  bool/Case pour intervention en cours et savoir sur quelle case intervient le robot
+        //Pour savoir si on refait l'init ou pas.
+        //Faire en sorte
 
         if(currentCase.isOnFire()) {
             int reservoirRobot = this.robot.getReservoir();
@@ -34,12 +43,11 @@ public class Intervention extends Evenement {
             if(currentIncendie == null) {
                 return;
             }
-
             switch (super.robot.getTypeRobot()){
                 case ROUES:
+                    this.duration = (currentIncendie.getIntensite())/(100/5);
                     quantityWater = (Math.min(reservoirRobot, 100));
                     reservoirRobot = reservoirRobot - quantityWater;
-                    this.duration = 5;
                     break;
                 case DRONE:
                     quantityWater = 10000;
