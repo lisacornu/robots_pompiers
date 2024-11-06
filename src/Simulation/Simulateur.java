@@ -11,22 +11,29 @@ import gui.Simulable;
 import io.DonneeSimulation;
 import io.LecteurDonnees;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.ImageObserver;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
+
+
+
 public class Simulateur implements Simulable{
 
     private final GUISimulator gui;
-    private final Carte init_carte;
-    private final DonneeSimulation donneeSimulation;
+    private final String filename;
+    private DonneeSimulation donneeSimulation;
     private static ArrayList<Evenement> executingEvent;
 
-
+    private Image[] textureTerrain, textureRobot;
+    private Image textureIncendie;
 
     private static long dateSimulation;
     private static final HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>(); //On utilise une HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements
@@ -76,13 +83,12 @@ public class Simulateur implements Simulable{
 
     public Simulateur(GUISimulator gui, String donnees) throws DataFormatException, FileNotFoundException {
         this.gui = gui;
+        this.filename = donnees;
         executingEvent = new ArrayList<Evenement>();
         gui.setSimulable(this);
         this.donneeSimulation = initDonneeSimulation(donnees);
-        this.init_carte = DonneeSimulation.getCarte();
         draw();
     }
-
 
 
     private void draw_map() {
@@ -115,8 +121,7 @@ public class Simulateur implements Simulable{
                 }
                 for(Incendie incendie:incendies){
                     if(incendie.getPosition() == matriceCase[i][j]){
-                        ImageObs obs = new ImageObs();
-                        gui.addGraphicalElement(new ImageElement(x,y,"feu.png",width_case,height_case,null));
+                        gui.addGraphicalElement(new ImageElement(x - width_case/2 ,y - height_case/2,"images/feu.png",width_case,height_case, null));
                     }
                 }
                 x+= width_case;
@@ -134,20 +139,20 @@ public class Simulateur implements Simulable{
         int height_case = gui.getHeight()/DonneeSimulation.getCarte().getNbCol();
         int width_case  = gui.getWidth()/DonneeSimulation.getCarte().getNblignes();
         for(Robot robot:robots) {
-            x = robot.getPosition().getX() * width_case + width_case / 2;
-            y = robot.getPosition().getY() * height_case + height_case / 2;
+            x = robot.getPosition().getX() * width_case;
+            y = robot.getPosition().getY() * height_case;
             switch (robot.getTypeRobot()){
                 case ROUES :
-                    gui.addGraphicalElement(new ImageElement(x, y, "roue.png", width_case, height_case, null));
+                    gui.addGraphicalElement(new ImageElement(x, y, "images/roue.png", width_case, height_case, null));
                     break;
                 case CHENILLE:
-                    gui.addGraphicalElement(new ImageElement(x, y, "chenille.png", width_case, height_case, null));
+                    gui.addGraphicalElement(new ImageElement(x, y, "images/chenille.png", width_case, height_case, null));
                     break;
                 case DRONE:
-                    gui.addGraphicalElement(new ImageElement(x, y, "drone.png", width_case, height_case, null));
+                    gui.addGraphicalElement(new ImageElement(x, y, "images/drone.png", width_case, height_case, null));
                     break;
                 case PATTES:
-                    gui.addGraphicalElement(new ImageElement(x, y, "patte.png", width_case, height_case, null));
+                    gui.addGraphicalElement(new ImageElement(x, y, "images/patte.png", width_case, height_case, null));
                     break;
             }
         }
@@ -165,16 +170,22 @@ public class Simulateur implements Simulable{
         dateSimulation++;
         HashMap<Long, ArrayList<Evenement>> evenements = this.getEvenements();
         ArrayList<Evenement> eventsToDate = evenements.get(dateSimulation);
-        executingEvent.addAll(eventsToDate);
-        for(Evenement evenement:executingEvent){
-            evenement.execute();
+        if(eventsToDate != null) {
+            executingEvent.addAll(eventsToDate);
+            for (Evenement evenement : executingEvent) {
+                evenement.execute();
+            }
+            draw();
         }
-        draw();
     }
 
     @Override
     public void restart() {
-        this.donneeSimulation.setCarte(init_carte);
+        try {
+            this.donneeSimulation = initDonneeSimulation(this.filename);
+        } catch (DataFormatException | FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
         dateSimulation = 0;
         draw();
     }

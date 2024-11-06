@@ -12,21 +12,15 @@ public class RobotChenille extends RobotTerrestre {
     private static final int vitesseDefaut = 60; // km/h
     private static final int vitesseMax = 80;
     private static final int tailleReservoir = 2000;
+    private static final int vitesseDeversement = 100/8;
+    private static final int vitesseRemplissage = 5 * 60;
 
     public RobotChenille(Case position, String vitesse) {
-        super(position, vitesse, vitesseDefaut, vitesseMax, 5 * 60);
+        super(position, vitesse, vitesseDefaut, vitesseMax, vitesseRemplissage,vitesseDeversement,tailleReservoir);
         this.typeRobot = TypeRobot.CHENILLE;
     }
 
-    public void remplirReservoir () {
-        Carte carte = getCarte();
-        for (Direction dir : Direction.values()) {
-            if (carte.voisinExiste(this.position, dir)
-                    && carte.getVoisin(this.position, dir).getNatureTerrain() == NatureTerrain.EAU) {
-                super.reservoir = tailleReservoir;
-            }
-        }
-    }
+
 
     public void moveNextCase(Direction dir) {
         Carte carte = getCarte();

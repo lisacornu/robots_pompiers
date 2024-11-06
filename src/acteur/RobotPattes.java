@@ -9,10 +9,11 @@ import static io.DonneeSimulation.getCarte;
 
 public class RobotPattes extends RobotTerrestre{
     private static final int vitesseDefaut = 30; // km/h
+    private static final int vitesseDeversement = 10;
 
     public RobotPattes(Case position) {
 
-        super(position, null,vitesseDefaut,vitesseDefaut,0);
+        super(position, null,vitesseDefaut,vitesseDefaut,0,vitesseDeversement,0);
         this.typeRobot = TypeRobot.PATTES;
     }
 

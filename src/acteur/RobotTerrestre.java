@@ -11,7 +11,7 @@ public abstract class RobotTerrestre extends Robot {
     }
 
     // Robots avec vitesse max
-    protected RobotTerrestre (Case pos, String vitesse, double vitesseDefaut, double vitesseMax,int tempsRemplissage) {
+    protected RobotTerrestre (Case pos, String vitesse, double vitesseDefaut, double vitesseMax,int tempsRemplissage,int vitesseDeversement,int tailleReservoir) {
         super.position = pos;
         super.vitesseDeplacement = (
                 vitesse == null
@@ -19,6 +19,8 @@ public abstract class RobotTerrestre extends Robot {
                         : (Math.min(Double.parseDouble(vitesse), vitesseMax)) // vitesse lue dans le fichier ne peux pas être > à vitesse max
         );
         super.tempsRemplissage =  tempsRemplissage;
+        super.vitesseDeversement = vitesseDeversement;
+        super.tailleReservoir = tailleReservoir;
     }
 
 }
