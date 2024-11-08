@@ -9,9 +9,10 @@ import static io.DonneeSimulation.getCarte;
 
 
 public class RobotChenille extends RobotTerrestre {
-    private static final int vitesseDefaut = 60; // km/h
-    private static final int vitesseMax = 80;
-    private static final int tailleReservoir = 2000;
+    private static final int vitesseDefaut = 60;        // km/h
+    private static final int vitesseMax = 80;           // km/h
+    private static final int tailleReservoir = 2000;    // litres
+    private static final int tempsRemplissage = 5;      // minutes
 
     public RobotChenille(Case position, String vitesse) {
         super(position, vitesse, vitesseDefaut, vitesseMax);

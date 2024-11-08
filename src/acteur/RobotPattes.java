@@ -8,15 +8,13 @@ import environment.NatureTerrain;
 import static io.DonneeSimulation.getCarte;
 
 public class RobotPattes extends RobotTerrestre{
-    private static final int vitesseDefaut = 30; // km/h
+    private static final int vitesseDefaut = 30;    // km/h
 
     public RobotPattes(Case position) {
         super(position, null, vitesseDefaut);
     }
 
-    public void remplirReservoir () {
-        return;
-    }
+    public void remplirReservoir () {}
 
     public void moveNextCase(Direction dir) {
         Carte carte = getCarte();

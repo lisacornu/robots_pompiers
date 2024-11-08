@@ -11,6 +11,7 @@ import static io.DonneeSimulation.getCarte;
 public class RobotRoue extends RobotTerrestre {
     private static final int vitesseDefaut = 80; // km/h
     private static final int tailleReservoir = 5000;
+    private static final int tempsRemplissage = 10;
 
     public RobotRoue(Case position, String vitesse) {
         super(position, vitesse, vitesseDefaut);
