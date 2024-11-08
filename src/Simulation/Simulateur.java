@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Set;
 import java.util.zip.DataFormatException;
 
@@ -172,11 +173,15 @@ public class Simulateur implements Simulable{
         ArrayList<Evenement> eventsToDate = evenements.get(dateSimulation);
         if(eventsToDate != null) {
             executingEvent.addAll(eventsToDate);
-            for (Evenement evenement : executingEvent) {
-                evenement.execute();
-            }
-            draw();
         }
+        for (Iterator<Evenement> it = executingEvent.iterator(); it.hasNext();) {
+            Evenement evenement = it.next();
+            evenement.execute();
+            if(evenement.isDone()){
+                it.remove();
+            }
+        }
+        draw();
     }
 
     @Override

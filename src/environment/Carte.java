@@ -44,8 +44,8 @@ public class Carte {
         switch (dir) {
             case EST    -> voisinEx = src.getX() < this.nbCol - 1;
             case OUEST  -> voisinEx = src.getX() > 0;
-            case NORD   -> voisinEx = src.getY() < this.nblignes - 1;
-            case SUD    -> voisinEx = src.getY() > 0;
+            case NORD   -> voisinEx = src.getY() > 0;
+            case SUD    -> voisinEx = src.getY() < this.nblignes - 1;
         }
         return voisinEx;
     }
@@ -53,12 +53,11 @@ public class Carte {
     public Case getVoisin (Case src, Direction dir) {
         if (!voisinExiste(src, dir))
             throw new IllegalArgumentException("La case direction " + dir + " de la case (" + src.getX() + "," + src.getY() + ") n'existe pas.");
-
         switch (dir) {
-            case EST    -> { return this.getCase(src.getX() + 1, src.getY());   }
-            case OUEST  -> { return this.getCase(src.getX() - 1, src.getY());   }
-            case NORD   -> { return this.getCase(src.getX(), src.getY() + 1);   }
-            case SUD    -> { return this.getCase(src.getX(), src.getY() - 1);   }
+            case EST    -> { return this.getCase(src.getY(), src.getX() + 1);   }
+            case OUEST  -> { return this.getCase(src.getY(), src.getX() - 1);   }
+            case NORD   -> { return this.getCase(src.getY() - 1, src.getX());   }
+            case SUD    -> { return this.getCase(src.getY() + 1, src.getX());}
             default     -> throw new IllegalArgumentException("Impossible de trouver le voisin.");
         }
     }
