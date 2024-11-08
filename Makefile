@@ -46,7 +46,8 @@ exeLecture:
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
 exePartOne:
-	java -classpath bin:lib/gui.jar TestPartOne cartes/carteSujet.map
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPartOne.java
+	java -classpath bin:lib/gui.jar TestPartOne cartes/desertOfDeath-20x20.map
 
 clean:
 	rm -rf bin/*

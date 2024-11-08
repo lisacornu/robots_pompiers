@@ -8,13 +8,14 @@ import environment.NatureTerrain;
 import static io.DonneeSimulation.getCarte;
 
 public class RobotPattes extends RobotTerrestre{
-    private static final int vitesseDefaut = 30;    // km/h
+    private static final double vitesseDefaut = 30; // km/h
+    private static final int vitesseDeversement = 10;
 
     public RobotPattes(Case position) {
-        super(position, null, vitesseDefaut);
+        super(position, vitesseDefaut, vitesseDeversement);
     }
 
-    public void remplirReservoir () {}
+
 
     public void moveNextCase(Direction dir) {
         Carte carte = getCarte();
@@ -23,5 +24,11 @@ public class RobotPattes extends RobotTerrestre{
             return;
         }
         this.position = newCase;
+    }
+
+
+    @Override
+    public String getSpritePath() {
+        return "images/patte.png";
     }
 }

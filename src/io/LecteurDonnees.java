@@ -100,7 +100,9 @@ public class LecteurDonnees {
             NatureTerrain nature = NatureTerrain.valueOf(chaineNature); // recup la valeur de l'enum
 
             verifieLigneTerminee();
+
             carte.setCaseMatrice(lig, col, nature);
+            carte.getCase(lig,col).setOnFire(false);
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de case invalide. " + "Attendu: nature altitude [valeur_specifique]");
@@ -139,10 +141,12 @@ public class LecteurDonnees {
             int col = scanner.nextInt();
             int intensite = scanner.nextInt();
 
+
             if (intensite <= 0)
                 throw new DataFormatException("nb litres pour eteindre incendie doit etre > 0");
 
             verifieLigneTerminee();
+            carte.getCase(lig,col).setOnFire(true);
             return new Incendie(carte.getCase(lig, col), intensite);
 
         } catch (NoSuchElementException e) {

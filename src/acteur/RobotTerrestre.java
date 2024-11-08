@@ -1,23 +1,30 @@
 package acteur;
 
+import environment.Carte;
 import environment.Case;
+import environment.Direction;
+import environment.NatureTerrain;
+
+import static io.DonneeSimulation.getCarte;
 
 public abstract class RobotTerrestre extends Robot {
 
-    // Robots sans vitesse max
-    protected RobotTerrestre (Case pos, String vitesse, double vitesseDefaut) {
-        super.position = pos;
-        super.vitesseDeplacement = (vitesse == null ? vitesseDefaut : Double.parseDouble(vitesse));
+    protected RobotTerrestre (Case pos, double speed, int vitesseRemplissage, int vitesseDeversement,int tailleReservoir) {
+        super(pos, speed, vitesseRemplissage, vitesseDeversement, tailleReservoir);
     }
 
-    // Robots avec vitesse max
-    protected RobotTerrestre (Case pos, String vitesse, double vitesseDefaut, double vitesseMax) {
-        super.position = pos;
-        super.vitesseDeplacement = (
-                vitesse == null
-                        ? vitesseDefaut
-                        : (Math.min(Double.parseDouble(vitesse), vitesseMax)) // vitesse lue dans le fichier ne peux pas être > à vitesse max
-        );
+    protected RobotTerrestre (Case pos, double speed, int vitesseDeversement) {
+        super(pos, speed, vitesseDeversement);
     }
 
+    @Override
+    public final void RemplirReservoir() {
+        Carte carte = getCarte();
+        for (Direction dir : Direction.values()) {
+            if (carte.voisinExiste(this.position, dir)
+                    && carte.getVoisin(this.position, dir).getNatureTerrain() == NatureTerrain.EAU) {
+                this.volActuelReservoir = Math.min(this.getVolActuelReservoir() + this.getVitesseRemplissage() , this.getTailleReservoir());
+            }
+        }
+    }
 }

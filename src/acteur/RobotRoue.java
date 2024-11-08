@@ -9,12 +9,20 @@ import static io.DonneeSimulation.getCarte;
 
 
 public class RobotRoue extends RobotTerrestre {
-    private static final int vitesseDefaut = 80; // km/h
+
+    private static final double vitesseDefaut = 80; // km/h
     private static final int tailleReservoir = 5000;
-    private static final int tempsRemplissage = 10;
+    private static final int vitesseRemplissage = 10 * 60;
+    private static final int vitesseDeversement = 100 / 5;
 
     public RobotRoue(Case position, String vitesse) {
-        super(position, vitesse, vitesseDefaut);
+        super (
+                position,
+                (vitesse == null ? vitesseDefaut : Double.parseDouble(vitesse)),
+                vitesseRemplissage,
+                vitesseDeversement,
+                tailleReservoir
+        );
     }
 
     public void moveNextCase(Direction dir){
@@ -25,13 +33,9 @@ public class RobotRoue extends RobotTerrestre {
         }
     }
 
-    public void remplirReservoir () {
-        Carte carte = getCarte();
-        for (Direction dir : Direction.values()) {
-            if (carte.voisinExiste(this.position, dir)
-                && carte.getVoisin(this.position, dir).getNatureTerrain() == NatureTerrain.EAU) {
-                    super.reservoir = tailleReservoir;
-            }
-        }
+    @Override
+    public String getSpritePath() {
+        return "images/roue.png";
     }
+
 }

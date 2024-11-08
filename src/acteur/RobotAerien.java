@@ -1,17 +1,22 @@
 package acteur;
 
+import environment.Carte;
 import environment.Case;
 import environment.NatureTerrain;
 
+import static io.DonneeSimulation.getCarte;
+
 abstract public class RobotAerien extends Robot{
 
-    protected RobotAerien (Case pos, String vitesse, double vitesseDefaut, double vitesseMax) {
-        super.position = pos;
-        super.vitesseDeplacement = (
-                vitesse == null
-                        ? vitesseDefaut
-                        : (Math.min(Double.parseDouble(vitesse), vitesseMax)) // vitesse lue dans le fichier ne peux pas être > à vitesse max
-        );
+    protected RobotAerien(Case pos, double speed, int vitesseRemplissage, int vitesseDeversement, int tailleReservoir) {
+        super(pos, speed, vitesseRemplissage, vitesseDeversement, tailleReservoir);
+    }
+
+    @Override
+    public final void RemplirReservoir() {
+        Carte carte = getCarte();
+        if (this.position.getNatureTerrain() == NatureTerrain.EAU)
+            this.volActuelReservoir = Math.min(this.getVolActuelReservoir() + this.getVolActuelReservoir() * this.getVitesseRemplissage() , this.getTailleReservoir());
     }
 
 }

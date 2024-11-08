@@ -32,7 +32,7 @@ public class Carte {
 
 
     public void setCaseMatrice (int lig, int col, NatureTerrain nature) {
-        this.matriceCase[lig][col] = new Case(lig, col, nature);
+        this.matriceCase[lig][col] = new Case(nature,lig, col);
     }
 
     public Case getCase (int lig, int col) {
