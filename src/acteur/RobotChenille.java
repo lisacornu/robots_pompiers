@@ -15,6 +15,8 @@ public class RobotChenille extends RobotTerrestre {
     private static final int vitesseRemplissage = 5 * 60;
     private static final int vitesseDeversement = 100/8;
 
+    private double baseSpeed;   // vitesse de base, pour pouvoir la retrouver après passage en forêt
+
     public RobotChenille(Case position, String vitesse) {
         super (
                 position,
@@ -23,6 +25,7 @@ public class RobotChenille extends RobotTerrestre {
                 vitesseDeversement,
                 tailleReservoir
         );
+        this.baseSpeed = this.vitesseDeplacement;
     }
 
     public void moveNextCase(Direction dir) {
@@ -31,10 +34,12 @@ public class RobotChenille extends RobotTerrestre {
         if( newCase.getNatureTerrain() == NatureTerrain.EAU || newCase.getNatureTerrain() == NatureTerrain.ROCHE){
             return;
         }
-        else if(newCase.getNatureTerrain() == NatureTerrain.FORET){
 
-        }
         this.position = newCase;
+        if(newCase.getNatureTerrain() == NatureTerrain.FORET && this.vitesseDeplacement == this.baseSpeed)
+            this.vitesseDeplacement /= 2;
+        else
+            this.vitesseDeplacement *= 2;
     }
 
     @Override
