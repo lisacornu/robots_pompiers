@@ -37,5 +37,4 @@ public class RobotRoue extends RobotTerrestre {
     public String getSpritePath() {
         return "images/roue.png";
     }
-
 }

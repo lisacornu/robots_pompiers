@@ -16,6 +16,10 @@ public class Intervention extends Evenement {
 
     @Override
     public void execute() {
+        if(super.robot.isEvenementEnCours() & (!Simulateur.getExecutingEvent().contains(this))){
+            super.getRobot().setEvenement(this);
+            return;
+        }
 
         Case currentCase = super.robot.getPosition();
         int reservoirRobot = this.robot.getVolActuelReservoir();
@@ -42,14 +46,14 @@ public class Intervention extends Evenement {
             if (currentCase.isOnFire()) {
 
                 this.duration = Math.min((currentIncendie.getIntensite() / super.robot.getVitesseDeversement()), reservoirRobot / super.robot.getVitesseDeversement());
-                Simulateur.getExecutingEvent().add(this);
-                super.robot.setInterventionEnCours(true);
+                super.getRobot().setEvenement(this);
+                super.getRobot().setInterventionEnCours(true);
             }
         }
         super.robot.setVolActuelReservoir(Math.max(reservoirRobot - super.robot.getVitesseDeversement(),0));
         if(super.robot.getVolActuelReservoir() == 0){
             super.robot.setInterventionEnCours(false);
-            Simulateur.getExecutingEvent().remove(this);
+            super.setDone(true);
         }
         currentIncendie.setIntensite(max(currentIncendie.getIntensite() - super.robot.getVitesseDeversement(),0));
 
@@ -57,6 +61,7 @@ public class Intervention extends Evenement {
             currentCase.setOnFire(false);
             super.setDone(true);
         }
+        System.out.println("Intensite : " + currentIncendie.getIntensite() + " Reservoir : " + robot.getVolActuelReservoir());
 
 
     }

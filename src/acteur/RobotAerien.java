@@ -13,7 +13,7 @@ abstract public class RobotAerien extends Robot{
     }
 
     @Override
-    public final void RemplirReservoir() {
+    public final void remplirReservoir() {
         Carte carte = getCarte();
         if (this.position.getNatureTerrain() == NatureTerrain.EAU)
             this.volActuelReservoir = Math.min(this.getVolActuelReservoir() + this.getVolActuelReservoir() * this.getVitesseRemplissage() , this.getTailleReservoir());

@@ -54,6 +54,15 @@ public class LecteurDonnees {
         scanner.close();
         return donneeSimulation;
     }
+    
+    public static void resetDonneeSimulation(DonneeSimulation donneeSimulation ,String fichierDonnees) throws FileNotFoundException, DataFormatException {
+        LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
+        donneeSimulation.setCarte(lecteur.initCarte());
+        donneeSimulation.setIncendies(lecteur.lireIncendies(DonneeSimulation.getCarte()));
+        donneeSimulation.setRobots(lecteur.lireRobots(DonneeSimulation.getCarte()));
+
+        scanner.close();
+    }
 
 
     // Tout le reste de la classe est prive!

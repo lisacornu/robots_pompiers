@@ -18,7 +18,7 @@ public abstract class RobotTerrestre extends Robot {
     }
 
     @Override
-    public final void RemplirReservoir() {
+    public final void remplirReservoir() {
         Carte carte = getCarte();
         for (Direction dir : Direction.values()) {
             if (carte.voisinExiste(this.position, dir)

@@ -1,7 +1,11 @@
 package acteur;
 
+import Simulation.Evenement;
+import Simulation.Simulateur;
 import environment.Case;
 import environment.Direction;
+
+import java.util.ArrayList;
 
 public abstract class Robot {
     protected Case position;
@@ -12,7 +16,20 @@ public abstract class Robot {
     protected int vitesseRemplissage;
     protected int vitesseDeversement;
     private boolean interventionEnCours = false;
+    private ArrayList<Evenement> evenementEnAttente = new ArrayList<>();
+    private boolean evenementEnCours = false;
 
+    public ArrayList<Evenement> getEvenementEnAttente() {
+        return evenementEnAttente;
+    }
+
+    public boolean isEvenementEnCours() {
+        return evenementEnCours;
+    }
+
+    public void setEvenementEnCours(boolean evenementEnCours) {
+        this.evenementEnCours = evenementEnCours;
+    }
 
     // Constructeur robots classiques
     protected Robot (Case pos, double speed, int vitesseRemplissage, int vitesseDeversement,int tailleReservoir) {
@@ -34,10 +51,21 @@ public abstract class Robot {
         this.volActuelReservoir = Integer.MAX_VALUE;
     }
 
+    public void addEvenementEnAttente(Evenement e) {this.evenementEnAttente.add(e);}
+    public void removeEvenementEnAttente(Evenement e) {this.evenementEnAttente.remove(e);}
 
-    public boolean isInterventionEnCours() {
-        return interventionEnCours;
+
+    public void setEvenement(Evenement e) {
+        if(!isEvenementEnCours()) {
+            Simulateur.getExecutingEvent().add(e);
+            this.setEvenementEnCours(true);
+        }
+        else{
+            this.addEvenementEnAttente(e);
+        }
     }
+
+    public boolean isInterventionEnCours() {return interventionEnCours;}
     public void     setInterventionEnCours(boolean interventionEnCours) {this.interventionEnCours = interventionEnCours;}
 
     public int getVitesseDeversement() {
@@ -83,7 +111,7 @@ public abstract class Robot {
     }
 
 
-    public abstract void RemplirReservoir();
+    public abstract void remplirReservoir();
     public abstract String getSpritePath();
 }
 
