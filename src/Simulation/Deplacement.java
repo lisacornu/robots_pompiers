@@ -24,9 +24,10 @@ public class Deplacement extends Evenement {
         if(super.date + super.duration < Simulateur.getDateSimulation() & (!Simulateur.getExecutingEvent().contains(this))){
             Simulateur.getExecutingEvent().add(this);
         }
-        else {
+        else if (super.date + super.duration >= Simulateur.getDateSimulation()){
             super.robot.moveNextCase(this.direction);
-            Simulateur.getExecutingEvent().remove(this);
+            System.out.println("X : " +super.robot.getPosition().getX() + " Y : " + super.robot.getPosition().getY());
+            super.setDone(true);
         }
     }
 }

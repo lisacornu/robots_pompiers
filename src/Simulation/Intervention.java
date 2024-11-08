@@ -4,7 +4,6 @@ import acteur.Robot;
 import environment.Case;
 import environment.Incendie;
 import io.DonneeSimulation;
-
 import java.util.ArrayList;
 
 import static java.lang.Math.max;
@@ -56,7 +55,7 @@ public class Intervention extends Evenement {
 
         if(currentIncendie.getIntensite() == 0) {
             currentCase.setOnFire(false);
-            Simulateur.getExecutingEvent().remove(this);
+            super.setDone(true);
         }
 
 

@@ -26,6 +26,6 @@ public class RobotPattes extends RobotTerrestre{
         if(newCase.getNatureTerrain() == NatureTerrain.EAU){
             return;
         }
-        this.position = newCase;
+        this.setPosition(newCase);
     }
 }
