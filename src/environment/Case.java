@@ -1,4 +1,6 @@
 package environment;
+import java.lang.Math;
+
 
 public class Case {
     private final int x;
@@ -6,7 +8,12 @@ public class Case {
     private final NatureTerrain natureTerrain;
     private boolean isOnFire;
 
-
+    /**
+     * retourne un nombre aléatoire entre 0 et max inclus
+     */
+    private int randInt(int max){
+        return (int)(Math.random()*(max+1));
+    }
 
     public boolean isOnFire() {
         return isOnFire;
@@ -33,6 +40,18 @@ public class Case {
 
     public NatureTerrain getNatureTerrain() {
         return natureTerrain;
+    }
+
+    public String getImagePath() {
+        String imagePath = "images/";
+        switch (this.getNatureTerrain()) {
+            case EAU -> imagePath += "water" + randInt(5) + ".png";
+            case ROCHE -> imagePath += "moutain" + randInt(5) + ".png";
+            case TERRAIN_LIBRE -> imagePath += "plain" + randInt(5) + ".png";
+            case FORET -> imagePath += "forest" + randInt(5) + ".png";
+            case HABITAT -> imagePath += "city" + randInt(5) + ".png";
+        }
+        return imagePath;
     }
 
     @Override

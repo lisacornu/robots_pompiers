@@ -80,6 +80,7 @@ public class Simulateur implements Simulable{
         executingEvent = new ArrayList<Evenement>();
         gui.setSimulable(this);
         this.donneeSimulation = initDonneeSimulation(donnees);
+
         draw();
     }
 
@@ -88,41 +89,25 @@ public class Simulateur implements Simulable{
 
         int height_case = gui.getHeight()/DonneeSimulation.getCarte().getNbCol();
         int width_case  = gui.getWidth()/DonneeSimulation.getCarte().getNblignes();
-        int y = height_case/2;
-        int x = width_case/2;
+        int y = 0;
+        int x = 0;
         Carte carte = DonneeSimulation.getCarte();
         Case[][] matriceCase = carte.getMatriceCase();
         ArrayList<Incendie> incendies = DonneeSimulation.getIncendies();
         //Dessine les terrains
         for(int i = 0; i < carte.getNblignes(); i++){
             for (int j = 0; j < carte.getNbCol(); j++){
-                switch(matriceCase[i][j].getNatureTerrain()){
-                    case EAU:
-                        gui.addGraphicalElement(new Rectangle(x,y,Color.CYAN,Color.CYAN,width_case,height_case));
-                        break;
-                    case ROCHE:
-                        gui.addGraphicalElement(new Rectangle(x,y,Color.RED,Color.RED,width_case,height_case));
-                        break;
-                    case FORET:
-                        gui.addGraphicalElement(new Rectangle(x,y,Color.GREEN,Color.GREEN,width_case,height_case));
-                        break;
-                    case TERRAIN_LIBRE:
-                        gui.addGraphicalElement(new Rectangle(x,y,Color.WHITE,Color.WHITE,width_case,height_case));
-                        break;
-                    case HABITAT:
-                        gui.addGraphicalElement(new Rectangle(x,y,Color.ORANGE,Color.ORANGE,width_case,height_case));
-                        break;
-                }
+                gui.addGraphicalElement(new ImageElement(x,y,matriceCase[i][j].getImagePath(),width_case,height_case, null));
                 //Dessine les incendies
                 for(Incendie incendie:incendies){
                     if(incendie.getPosition() == matriceCase[i][j]){
-                        gui.addGraphicalElement(new ImageElement(x - width_case/2 ,y - height_case/2,"images/feu.png",width_case,height_case, null));
+                        gui.addGraphicalElement(new ImageElement(x,y,"images/feu.png",width_case,height_case, null));
                     }
                 }
                 x+= width_case;
             }
             y += height_case;
-            x = width_case/2;
+            x = 0;
         }
     }
 
