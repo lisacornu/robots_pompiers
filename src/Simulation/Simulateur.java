@@ -1,4 +1,4 @@
-package simulation;
+package Simulation;
 
 import acteur.Robot;
 import environment.Carte;
@@ -11,12 +11,13 @@ import gui.Simulable;
 import io.DonneeSimulation;
 import io.LecteurDonnees;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.ImageObserver;
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Set;
+import java.io.IOException;
+import java.util.*;
 import java.util.zip.DataFormatException;
 
 
@@ -138,20 +139,7 @@ public class Simulateur implements Simulable{
         for(Robot robot:robots) {
             x = robot.getPosition().getX() * width_case;
             y = robot.getPosition().getY() * height_case;
-            switch (robot.getTypeRobot()){
-                case ROUES :
-                    gui.addGraphicalElement(new ImageElement(x, y, "images/roue.png", width_case, height_case, null));
-                    break;
-                case CHENILLE:
-                    gui.addGraphicalElement(new ImageElement(x, y, "images/chenille.png", width_case, height_case, null));
-                    break;
-                case DRONE:
-                    gui.addGraphicalElement(new ImageElement(x, y, "images/drone.png", width_case, height_case, null));
-                    break;
-                case PATTES:
-                    gui.addGraphicalElement(new ImageElement(x, y, "images/patte.png", width_case, height_case, null));
-                    break;
-            }
+            gui.addGraphicalElement(new ImageElement(x, y, robot.getSpritePath(), width_case, height_case, null));
         }
 
     }
@@ -164,28 +152,58 @@ public class Simulateur implements Simulable{
 
     @Override
     public void next() {
+        if(dateSimulation == 0){
+            System.out.println("START");
+        }
         dateSimulation++;
         HashMap<Long, ArrayList<Evenement>> evenements = this.getEvenements();
         ArrayList<Evenement> eventsToDate = evenements.get(dateSimulation);
+        ArrayList<Evenement> eventToAdd = new ArrayList<>();
         if(eventsToDate != null) {
-            executingEvent.addAll(eventsToDate);
+            for (Evenement evenement : eventsToDate) {
+                evenement.execute();
+            }
         }
         for (Iterator<Evenement> it = executingEvent.iterator(); it.hasNext();) {
             Evenement evenement = it.next();
             evenement.execute();
+
             if(evenement.isDone()){
                 it.remove();
+                if(evenement.getRobot().getEvenementEnAttente().isEmpty()) {
+                    evenement.getRobot().setEvenementEnCours(false);
+                }
+                else{
+                    Evenement evenementAjouter =  evenement.getRobot().getEvenementEnAttente().getFirst();
+                    evenementAjouter.setDate(dateSimulation);
+                    eventToAdd.add(evenementAjouter);
+                    evenement.getRobot().getEvenementEnAttente().remove(evenementAjouter);
+                }
             }
         }
+        executingEvent.addAll(eventToAdd);
         draw();
     }
 
     @Override
     public void restart() {
+        ArrayList<Robot> robotsCopy = (ArrayList<Robot>) DonneeSimulation.getRobots().clone();
+
         try {
-            this.donneeSimulation = initDonneeSimulation(this.filename);
+            DonneeSimulation.getRobots().clear();
+            DonneeSimulation.getIncendies().clear();
+            LecteurDonnees.resetDonneeSimulation(this.donneeSimulation, this.filename);
         } catch (DataFormatException | FileNotFoundException e) {
             throw new RuntimeException(e);
+        }
+        Simulateur.getExecutingEvent().clear();
+        Collection<ArrayList<Evenement>> evenements = Simulateur.Evenements.values();
+        for(ArrayList<Evenement> ListEvenement:evenements){
+            for(Evenement evenement:ListEvenement){
+                int robotToSet =  robotsCopy.indexOf(evenement.getRobot());
+                evenement.setRobot(DonneeSimulation.getRobots().get(robotToSet));
+                evenement.setDone(false);;
+            }
         }
         dateSimulation = 0;
         draw();

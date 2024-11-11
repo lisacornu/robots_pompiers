@@ -1,8 +1,7 @@
-import simulation.Deplacement;
+import Simulation.*;
 import acteur.Robot;
 import environment.Direction;
 import gui.GUISimulator;
-import simulation.Simulateur;
 import io.DonneeSimulation;
 
 import java.awt.*;
@@ -22,13 +21,15 @@ public class TestPartOne {
             GUISimulator gui = new GUISimulator(1000, 1000, Color.WHITE);
             Simulateur simulateur = new Simulateur(gui, args[0]);
             ArrayList<Robot> robots = DonneeSimulation.getRobots();
-            System.out.println(robots.getFirst().getPosition().getX());
-            System.out.println(robots.getFirst().getPosition().getY());
-            System.out.println(robots.getFirst().getTypeRobot());
-            Simulateur.ajouteEvenement(new Deplacement(1, robots.getFirst(), Direction.SUD ));
-            Simulateur.ajouteEvenement(new Deplacement(10, robots.getFirst(), Direction.SUD ));
-            Simulateur.ajouteEvenement(new Deplacement(20, robots.getFirst(), Direction.SUD ));
-            Simulateur.ajouteEvenement(new Deplacement(30, robots.getFirst(), Direction.SUD ));
+            Robot robot = robots.get(1);
+            Simulateur.ajouteEvenement(new Deplacement(1, robot, Direction.NORD ));
+            Simulateur.ajouteEvenement(new Intervention(2, robot));
+            Simulateur.ajouteEvenement(new Deplacement(3, robot, Direction.OUEST));
+            Simulateur.ajouteEvenement(new Deplacement(4, robot, Direction.OUEST ));
+            Simulateur.ajouteEvenement(new RemplirReservoir(5, robot));
+            Simulateur.ajouteEvenement(new Deplacement(6, robot, Direction.EST ));
+            Simulateur.ajouteEvenement(new Deplacement(7, robot, Direction.EST ));
+            Simulateur.ajouteEvenement(new Intervention(8, robot));
 
 
         }

@@ -1,4 +1,4 @@
-package simulation;
+package Simulation;
 
 import acteur.Robot;
 import environment.Direction;
@@ -18,13 +18,15 @@ public class Deplacement extends Evenement {
 
     @Override
     public void execute() {
-        if(super.date + super.duration < Simulateur.getDateSimulation() & (!Simulateur.getExecutingEvent().contains(this))){
-            Simulateur.getExecutingEvent().add(this);
+        System.out.println(super.getRobot().getPosition().getX() + " " + super.getRobot().getPosition().getY());
+        if((!Simulateur.getExecutingEvent().contains(this))){
+            super.getRobot().setEvenement(this);
         }
-        else if (super.date + super.duration >= Simulateur.getDateSimulation()){
+        else if (Simulateur.getExecutingEvent().contains(this) && super.date + super.duration >= Simulateur.getDateSimulation() ){
             super.robot.moveNextCase(this.direction);
             System.out.println("X : " +super.robot.getPosition().getX() + " Y : " + super.robot.getPosition().getY());
             super.setDone(true);
+
         }
     }
 }
