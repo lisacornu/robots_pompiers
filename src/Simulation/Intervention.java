@@ -16,7 +16,9 @@ public class Intervention extends Evenement {
 
     @Override
     public void execute() {
-        if(super.robot.isEvenementEnCours() & (!Simulateur.getExecutingEvent().contains(this))){
+        if((!Simulateur.getExecutingEvent().contains(this))){
+            //Si le robot effectue déjà une action et que la liste des Evenements globaux ne contient pas cet evenement
+            //Alors on place l'evenement soit dans la liste des evenements en cours ou dans la liste d'attente du roboot
             super.getRobot().setEvenement(this);
             return;
         }
@@ -31,18 +33,14 @@ public class Intervention extends Evenement {
                 break;
             }
         }
+        //On obtient l'incendie sur lequel le robot intervient
         if (currentIncendie == null) {
             return;
         }
 
 
-        //faire un  bool/Case pour intervention en cours et savoir sur quelle case intervient le robot
-        //Pour savoir si on refait l'init ou pas.
-        //Faire en sorte
-
-
-
         if(!super.robot.isInterventionEnCours()) {
+            //Si c'est le premier appel de cet evenement alors on initialise la durée d'evenement et on met à vrai le booleen interventionEnCours
             if (currentCase.isOnFire()) {
 
                 this.duration = Math.min((currentIncendie.getIntensite() / super.robot.getVitesseDeversement()), reservoirRobot / super.robot.getVitesseDeversement());
@@ -50,14 +48,19 @@ public class Intervention extends Evenement {
                 super.getRobot().setInterventionEnCours(true);
             }
         }
+        //On diminue le reservoir du robot
         super.robot.setVolActuelReservoir(Math.max(reservoirRobot - super.robot.getVitesseDeversement(),0));
+
         if(super.robot.getVolActuelReservoir() == 0){
+            //Si le robot n'a plus d'eau, l'evenement est fini
             super.robot.setInterventionEnCours(false);
             super.setDone(true);
         }
+        //On diminue l'intensité de l'Incendie
         currentIncendie.setIntensite(max(currentIncendie.getIntensite() - super.robot.getVitesseDeversement(),0));
 
         if(currentIncendie.getIntensite() == 0) {
+            //Si il n'y a plus d'incendie, on termine l'evenement.
             currentCase.setOnFire(false);
             super.setDone(true);
         }
