@@ -38,7 +38,7 @@ public abstract class Robot {
     public boolean isInterventionEnCours() {
         return interventionEnCours;
     }
-    public void     setInterventionEnCours(boolean interventionEnCours) {this.interventionEnCours = interventionEnCours;}
+    public void setInterventionEnCours(boolean interventionEnCours) {this.interventionEnCours = interventionEnCours;}
 
     public int getVitesseDeversement() {
         return vitesseDeversement;
@@ -85,5 +85,6 @@ public abstract class Robot {
 
     public abstract void RemplirReservoir();
     public abstract String getSpritePath();
+    public abstract double getSpeedOnCase(Case pos);
 }
 

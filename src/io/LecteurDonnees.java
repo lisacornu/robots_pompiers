@@ -43,7 +43,7 @@ public class LecteurDonnees {
      * LecteurDonnees.lire(fichierDonnees)
      * @param fichierDonnees nom du fichier à lire
      */
-    public static DonneeSimulation lire(String fichierDonnees) throws FileNotFoundException, DataFormatException {
+    public static DonneeSimulation lire (String fichierDonnees) throws FileNotFoundException, DataFormatException {
         LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
         DonneeSimulation donneeSimulation = new DonneeSimulation();
 

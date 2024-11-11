@@ -1,4 +1,4 @@
-package Simulation;
+package simulation;
 
 import acteur.Robot;
 import environment.Carte;
@@ -11,12 +11,8 @@ import gui.Simulable;
 import io.DonneeSimulation;
 import io.LecteurDonnees;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;

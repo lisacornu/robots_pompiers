@@ -1,4 +1,4 @@
-package Simulation;
+package simulation;
 
 import acteur.Robot;
 import environment.Case;

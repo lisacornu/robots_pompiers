@@ -1,9 +1,8 @@
-import Simulation.Deplacement;
-import Simulation.Evenement;
+import simulation.Deplacement;
 import acteur.Robot;
 import environment.Direction;
 import gui.GUISimulator;
-import Simulation.Simulateur;
+import simulation.Simulateur;
 import io.DonneeSimulation;
 
 import java.awt.*;

@@ -43,6 +43,17 @@ public class RobotChenille extends RobotTerrestre {
     }
 
     @Override
+    public double getSpeedOnCase(Case pos) {
+        NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
+        if ( natureTerrrainCase == NatureTerrain.EAU || natureTerrrainCase == NatureTerrain.ROCHE)
+            return Double.MAX_VALUE;
+        else if ( natureTerrrainCase == NatureTerrain.FORET)
+            return this.baseSpeed / 2;
+        else
+            return this.baseSpeed;
+    }
+
+    @Override
     public String getSpritePath() {
         return "images/chenille.png";
     }

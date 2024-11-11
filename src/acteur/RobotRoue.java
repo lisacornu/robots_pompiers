@@ -38,4 +38,14 @@ public class RobotRoue extends RobotTerrestre {
         return "images/roue.png";
     }
 
+
+    @Override
+    public double getSpeedOnCase(Case pos) {
+        NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
+        if (natureTerrrainCase == NatureTerrain.HABITAT || natureTerrrainCase == NatureTerrain.TERRAIN_LIBRE)
+            return this.vitesseDeplacement;
+        else
+            return Double.MAX_VALUE;
+    }
+
 }

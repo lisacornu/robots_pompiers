@@ -37,4 +37,10 @@ public class RobotDrone extends RobotAerien {
     public String getSpritePath() {
         return "images/drone.png";
     }
+
+
+    @Override
+    public double getSpeedOnCase(Case pos) {
+        return this.vitesseDeplacement;
+    }
 }

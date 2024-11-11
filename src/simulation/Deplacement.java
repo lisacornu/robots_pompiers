@@ -1,11 +1,8 @@
-package Simulation;
+package simulation;
 
 import acteur.Robot;
 import environment.Direction;
 import io.DonneeSimulation;
-import Simulation.Simulateur;
-import Simulation.Evenement;
-
 
 
 public class Deplacement extends Evenement {

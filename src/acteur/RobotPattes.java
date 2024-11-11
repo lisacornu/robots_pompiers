@@ -33,4 +33,15 @@ public class RobotPattes extends RobotTerrestre{
     public String getSpritePath() {
         return "images/patte.png";
     }
+
+    @Override
+    public double getSpeedOnCase(Case pos) {
+        NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
+        if (natureTerrrainCase == NatureTerrain.EAU)
+            return Double.MAX_VALUE;
+        else if (natureTerrrainCase == NatureTerrain.ROCHE)
+            return 10;  // km/h
+        else
+            return this.vitesseDeplacement;
+    }
 }
