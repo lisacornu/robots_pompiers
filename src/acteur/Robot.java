@@ -18,9 +18,9 @@ public abstract class Robot {
 
     protected int vitesseRemplissage;
     protected int vitesseDeversement;
-    private boolean interventionEnCours = false;
-    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();
-    private boolean evenementEnCours = false;
+    private boolean interventionEnCours = false; //booléen pour regarder si le robot intervient sur un feu
+    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste tous les evenements en attente que le robot doit effectuer
+    private boolean evenementEnCours = false; //booléen pour verifier si le robot est en train d'effectuer une action
 
     public ArrayList<Evenement> getEvenementEnAttente() {
         return evenementEnAttente;
@@ -60,10 +60,15 @@ public abstract class Robot {
 
     public void setEvenement(Evenement e) {
         if(!isEvenementEnCours()) {
+            //Si le robot est en attente, alors ona joute l'evenement e dans la liste des evenements en cours
+            //et on enlève le robot de son état d'attente
+
             Simulateur.getExecutingEvent().add(e);
             this.setEvenementEnCours(true);
         }
         else{
+            //Sinon, on ajoute e à la liste d'attente des actions du robot.
+
             this.addEvenementEnAttente(e);
         }
     }
