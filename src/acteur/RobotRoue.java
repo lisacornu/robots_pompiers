@@ -45,7 +45,7 @@ public class RobotRoue extends RobotTerrestre {
         if (natureTerrrainCase == NatureTerrain.HABITAT || natureTerrrainCase == NatureTerrain.TERRAIN_LIBRE)
             return this.vitesseDeplacement;
         else
-            return Double.MAX_VALUE;
+            return 1/Double.MAX_VALUE;
     }
 
 }

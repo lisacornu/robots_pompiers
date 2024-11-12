@@ -169,7 +169,7 @@ public class Simulateur implements Simulable{
                     //Sinon, on ajoute le premier evenement de la liste evenementEnAttente et on le rajoute
                     //à la liste des evenements en cours, on actualise la date de début d'execution.
                     //et enfin, on le supprime de la liste des evenements en cours
-                    Evenement evenementAjouter =  evenement.getRobot().getEvenementEnAttente().getFirst();
+                    Evenement evenementAjouter =  evenement.getRobot().getEvenementEnAttente().get(0);
                     evenementAjouter.setDate(getDateSimulation());
                     eventToAdd.add(evenementAjouter);
                     evenement.getRobot().getEvenementEnAttente().remove(evenementAjouter);

@@ -1,8 +1,10 @@
 import Simulation.*;
 import acteur.Robot;
+import environment.Carte;
 import environment.Direction;
 import gui.GUISimulator;
 import io.DonneeSimulation;
+import pathFinding.Chemin;
 
 import java.awt.*;
 import java.io.FileNotFoundException;
@@ -21,15 +23,11 @@ public class TestPartOne {
             GUISimulator gui = new GUISimulator(1000, 1000, Color.WHITE);
             Simulateur simulateur = new Simulateur(gui, args[0]);
             ArrayList<Robot> robots = DonneeSimulation.getRobots();
+            Carte carte = DonneeSimulation.getCarte();
             Robot robot = robots.get(1);
-            Simulateur.ajouteEvenement(new Deplacement(1, robot, Direction.NORD ));
-            Simulateur.ajouteEvenement(new Intervention(2, robot));
-            Simulateur.ajouteEvenement(new Deplacement(3, robot, Direction.OUEST));
-            Simulateur.ajouteEvenement(new Deplacement(4, robot, Direction.OUEST ));
-            Simulateur.ajouteEvenement(new RemplirReservoir(5, robot));
-            Simulateur.ajouteEvenement(new Deplacement(6, robot, Direction.EST ));
-            Simulateur.ajouteEvenement(new Deplacement(7, robot, Direction.EST ));
-            Simulateur.ajouteEvenement(new Intervention(8, robot));
+
+            Chemin chemin = robot.getPlusCourtChemin(carte.getCase(0, 0));
+            robot.goToDestination(chemin.getDescChemin());
 
 
         }
