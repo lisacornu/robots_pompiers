@@ -1,9 +1,12 @@
 package acteur;
 
+import Simulation.Deplacement;
 import Simulation.Evenement;
 import Simulation.Simulateur;
 import environment.Case;
 import environment.Direction;
+import pathFinding.Chemin;
+import pathFinding.Dijkstra;
 
 import java.util.ArrayList;
 
@@ -62,6 +65,23 @@ public abstract class Robot {
         }
         else{
             this.addEvenementEnAttente(e);
+        }
+    }
+
+    /**
+     * @param dest Case vers laquelle on cherche le plus court chemin
+     * @return instance de Chemin (temps et suite de direction) représentant le plus cours chemin vers dest
+     */
+    public Chemin getPlusCourtChemin (Case dest) {
+        return Dijkstra.getPlusCourtChemin(this.position, dest, this);
+    }
+
+    public void goToDestination (ArrayList<Direction> descChemin) {
+        int date = 0;
+        for (Direction dir : descChemin) {
+            Deplacement deplacement = new Deplacement(date, this, dir);
+            Simulateur.ajouteEvenement(deplacement);
+            date++;
         }
     }
 
