@@ -111,6 +111,7 @@ public class LecteurDonnees {
             verifieLigneTerminee();
 
             carte.setCaseMatrice(lig, col, nature);
+            carte.getCase(lig,col).setImagePath();
             carte.getCase(lig,col).setOnFire(false);
 
         } catch (NoSuchElementException e) {

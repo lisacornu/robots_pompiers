@@ -7,6 +7,7 @@ public class Case {
     private final int y;
     private final NatureTerrain natureTerrain;
     private boolean isOnFire;
+    private String imagePath;
 
     /**
      * retourne un nombre aléatoire entre 0 et max inclus
@@ -42,7 +43,7 @@ public class Case {
         return natureTerrain;
     }
 
-    public String getImagePath() {
+    public void setImagePath() {
         String imagePath = "images/";
         switch (this.getNatureTerrain()) {
             case EAU -> imagePath += "water" + randInt(5) + ".png";
@@ -51,6 +52,10 @@ public class Case {
             case FORET -> imagePath += "forest" + randInt(5) + ".png";
             case HABITAT -> imagePath += "city" + randInt(5) + ".png";
         }
+        this.imagePath = imagePath;
+    }
+
+    public String getImagePath() {
         return imagePath;
     }
 
