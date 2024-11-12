@@ -82,7 +82,7 @@ public abstract class Robot {
     }
 
     public void goToDestination (ArrayList<Direction> descChemin) {
-        int date = 0;
+        int date = 1;
         for (Direction dir : descChemin) {
             Deplacement deplacement = new Deplacement(date, this, dir);
             Simulateur.ajouteEvenement(deplacement);

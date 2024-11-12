@@ -6,17 +6,12 @@ import environment.Case;
 import environment.Incendie;
 import gui.GUISimulator;
 import gui.ImageElement;
-import gui.Rectangle;
 import gui.Simulable;
 import io.DonneeSimulation;
 import io.LecteurDonnees;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
-import java.awt.image.ImageObserver;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
