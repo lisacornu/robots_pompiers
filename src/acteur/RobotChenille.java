@@ -37,16 +37,16 @@ public class RobotChenille extends RobotTerrestre {
 
         this.position = newCase;
         if(newCase.getNatureTerrain() == NatureTerrain.FORET && this.vitesseDeplacement == this.baseSpeed)
-            this.vitesseDeplacement /= 2;
+            this.vitesseDeplacement = this.baseSpeed/2;
         else
-            this.vitesseDeplacement *= 2;
+            this.vitesseDeplacement = this.baseSpeed;
     }
 
     @Override
     public double getSpeedOnCase(Case pos) {
         NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
         if ( natureTerrrainCase == NatureTerrain.EAU || natureTerrrainCase == NatureTerrain.ROCHE)
-            return Double.MAX_VALUE;
+            return 1/Double.MAX_VALUE;
         else if ( natureTerrrainCase == NatureTerrain.FORET)
             return this.baseSpeed / 2;
         else

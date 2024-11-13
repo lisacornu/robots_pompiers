@@ -73,13 +73,14 @@ public class Simulateur implements Simulable{
         this.gui = gui;
         this.filename = donnees;
         executingEvent = new ArrayList<Evenement>();
-        gui.setSimulable(this);
         this.donneeSimulation = initDonneeSimulation(donnees);
-
+        gui.setSimulable(this);
         draw();
     }
 
-
+    /**
+     * Dessine la carte à l'aide d'images qui sont choisis aléatoirement
+     */
     private void draw_map() {
 
         int height_case = gui.getHeight()/DonneeSimulation.getCarte().getNbCol();
@@ -106,7 +107,9 @@ public class Simulateur implements Simulable{
         }
     }
 
-
+    /**
+     * Dessine les robots de la carte
+     */
     private void draw_robots(){
         ArrayList<Robot> robots = DonneeSimulation.getRobots();
         int x;
@@ -180,7 +183,7 @@ public class Simulateur implements Simulable{
 
     @Override
     public void restart() {
-        ArrayList<Robot> robotsCopy = (ArrayList<Robot>) DonneeSimulation.getRobots().clone();
+        ArrayList<Robot> robotsCopy = new ArrayList<Robot>(DonneeSimulation.getRobots());
 
         try {
             DonneeSimulation.getRobots().clear();

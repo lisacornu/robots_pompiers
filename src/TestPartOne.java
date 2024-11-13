@@ -24,9 +24,8 @@ public class TestPartOne {
             Simulateur simulateur = new Simulateur(gui, args[0]);
             ArrayList<Robot> robots = DonneeSimulation.getRobots();
             Carte carte = DonneeSimulation.getCarte();
-            Robot robot = robots.get(1);
-
-            Chemin chemin = robot.getPlusCourtChemin(carte.getCase(0, 0));
+            Robot robot = robots.get(2);
+            Chemin chemin = robot.getPlusCourtChemin(carte.getCase(25, 25));
             robot.goToDestination(chemin.getDescChemin());
 
 

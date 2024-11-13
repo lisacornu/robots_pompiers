@@ -4,7 +4,7 @@ import acteur.Robot;
 
 public abstract class Evenement  {
     protected long date;
-    protected int duration;
+    protected double duration;
     protected Robot robot;
     protected boolean Done;
 
@@ -35,6 +35,9 @@ public abstract class Evenement  {
         this.robot = robot;
     }
 
+    /**
+     * S'occupe d'éxécuter l'évenment en question
+     */
     public abstract void execute();
 
     protected void setDate(long date) {

@@ -38,7 +38,6 @@ public class Intervention extends Evenement {
             return;
         }
 
-
         if(!super.robot.isInterventionEnCours()) {
             //Si c'est le premier appel de cet evenement alors on initialise la durée d'evenement et on met à vrai le booleen interventionEnCours
             if (currentCase.isOnFire()) {

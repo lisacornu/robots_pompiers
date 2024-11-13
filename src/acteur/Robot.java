@@ -138,6 +138,12 @@ public abstract class Robot {
 
     public abstract void remplirReservoir();
     public abstract String getSpritePath();
+
+    /**
+     * Permettre de connaître la vitesse du robot sur la case pos, ce qui dépend du type de robot
+     * @param pos case désigné
+     * @return vitesse sur la case pos
+     */
     public abstract double getSpeedOnCase(Case pos);
 }
 

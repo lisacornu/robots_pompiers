@@ -50,7 +50,7 @@ public class Carte {
         return voisinEx;
     }
 
-    public Case getVoisin (Case src, Direction dir) {
+    public  Case getVoisin(Case src, Direction dir) {
         if (!voisinExiste(src, dir))
             throw new IllegalArgumentException("La case direction " + dir + " de la case (" + src.getX() + "," + src.getY() + ") n'existe pas.");
         switch (dir) {

@@ -38,7 +38,7 @@ public class RobotPattes extends RobotTerrestre{
     public double getSpeedOnCase(Case pos) {
         NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
         if (natureTerrrainCase == NatureTerrain.EAU)
-            return Double.MAX_VALUE;
+            return 1/Double.MAX_VALUE;
         else if (natureTerrrainCase == NatureTerrain.ROCHE)
             return 10;  // km/h
         else

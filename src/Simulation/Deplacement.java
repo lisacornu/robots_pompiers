@@ -1,8 +1,11 @@
 package Simulation;
 
 import acteur.Robot;
+import environment.Carte;
 import environment.Direction;
 import io.DonneeSimulation;
+
+import static pathFinding.Dijkstra.getTemps;
 
 
 public class Deplacement extends Evenement {
@@ -13,8 +16,10 @@ public class Deplacement extends Evenement {
         this.direction = direction;
         double viteseMs =  super.robot.getVitesseDeplacement()/3.6;
         int tailleCase = DonneeSimulation.getCarte().getTailleCases();
-        super.duration = (int) (tailleCase/viteseMs);
+        super.duration = (int) getTemps(robot.getPosition(), DonneeSimulation.getCarte().getVoisin(robot.getPosition(),direction),robot);
     }
+
+
 
     @Override
     public void execute() {
@@ -30,7 +35,7 @@ public class Deplacement extends Evenement {
             //Alors on se déplace.
 
             super.robot.moveNextCase(this.direction);
-            System.out.println("X : " +super.robot.getPosition().getX() + " Y : " + super.robot.getPosition().getY());
+            System.out.println("X : " +super.robot.getPosition().getX() + " Y : " + super.robot.getPosition().getY() + "direction : " + this.direction);
             super.setDone(true);
 
         }

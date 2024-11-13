@@ -198,25 +198,28 @@ public class LecteurDonnees {
             String s = scanner.findInLine("(\\d+)");	// 1 or more digit(s) ?
             // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
 
-            switch (type) {
-                case ROUES :
+            return switch (type) {
+                case ROUES -> {
                     verifieLigneTerminee();
-                    return new RobotRoue(position, s);
-                case CHENILLE:
+                    yield new RobotRoue(position, s);
+                }
+                case CHENILLES -> {
                     verifieLigneTerminee();
-                    return new RobotChenille(position, s);
-                case PATTES:
+                    yield new RobotChenille(position, s);
+                }
+                case PATTES -> {
                     verifieLigneTerminee();
-                    return new RobotPattes(position);
-                case DRONE:
+                    yield new RobotPattes(position);
+                }
+                case DRONE -> {
                     verifieLigneTerminee();
-                    return new RobotDrone(position, s);
-            }
+                    yield new RobotDrone(position, s);
+                }
+            };
 
         } catch (NoSuchElementException e) {
             throw new DataFormatException("format de robot invalide. " + "Attendu: ligne colonne type [valeur_specifique]");
         }
-        return null;
     }
 
 

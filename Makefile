@@ -21,6 +21,8 @@
 #   -classpath : repertoire dans lequel sont cherches les .class deja compiles
 #   -sourcepath : repertoire dans lequel sont cherches les .java (dependances)
 
+FILE ?= cartes/carteSujet.map
+
 all: testInvader testLecture testPartOne
 
 testInvader:
@@ -45,9 +47,16 @@ exeInvader:
 exeLecture: 
 	java -classpath bin TestLecteurDonnees cartes/carteSujet.map
 
-exePartOne:
+run:
 	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPartOne.java
-	java -classpath bin:lib/gui.jar TestPartOne cartes/carteSujet.map
+	java -classpath bin:lib/gui.jar TestPartOne $(FILE)
+
+spirale:
+	javac -d bin -classpath lib/gui.jar -sourcepath src src/TestPartOne.java
+	java -classpath bin:lib/gui.jar TestPartOne cartes/spiralOfMadness-50x50.map
+
+
+
 
 clean:
 	rm -rf bin/*
