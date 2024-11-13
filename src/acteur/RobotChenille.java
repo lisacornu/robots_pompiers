@@ -15,7 +15,7 @@ public class RobotChenille extends RobotTerrestre {
     private static final int vitesseRemplissage = 5 * 60;
     private static final int vitesseDeversement = 100/8;
 
-    private double baseSpeed;   // vitesse de base, pour pouvoir la retrouver après passage en forêt
+    private final double baseSpeed;   // vitesse de base, pour pouvoir la retrouver après passage en forêt
 
     public RobotChenille(Case position, String vitesse) {
         super (

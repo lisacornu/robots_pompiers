@@ -55,20 +55,16 @@ public abstract class Robot {
     }
 
     public void addEvenementEnAttente(Evenement e) {this.evenementEnAttente.add(e);}
-    public void removeEvenementEnAttente(Evenement e) {this.evenementEnAttente.remove(e);}
-
 
     public void setEvenement(Evenement e) {
         if(!isEvenementEnCours()) {
-            //Si le robot est en attente, alors ona joute l'evenement e dans la liste des evenements en cours
+            //Si le robot est en attente, alors on ajoute l'evenement e dans la liste des evenements en cours
             //et on enlève le robot de son état d'attente
-
             Simulateur.getExecutingEvent().add(e);
             this.setEvenementEnCours(true);
         }
         else{
             //Sinon, on ajoute e à la liste d'attente des actions du robot.
-
             this.addEvenementEnAttente(e);
         }
     }
@@ -96,10 +92,6 @@ public abstract class Robot {
     public int getVitesseDeversement() {
         return vitesseDeversement;
     }
-    public void setVitesseDeversement(int vitesseDeversement) {
-        this.vitesseDeversement = vitesseDeversement;
-    }
-
 
     public Case getPosition() {
         return position;
@@ -107,9 +99,6 @@ public abstract class Robot {
 
     public int getVitesseRemplissage() {
         return vitesseRemplissage;
-    }
-    public void setVitesseRemplissage(int vitesseRemplissage) {
-        this.vitesseRemplissage = vitesseRemplissage;
     }
 
     public double getVitesseDeplacement() {
@@ -131,10 +120,6 @@ public abstract class Robot {
     public int getTailleReservoir() {
         return tailleReservoir;
     }
-    public void setTailleReservoir(int tailleReservoir) {
-        this.tailleReservoir = tailleReservoir;
-    }
-
 
     public abstract void remplirReservoir();
     public abstract String getSpritePath();
