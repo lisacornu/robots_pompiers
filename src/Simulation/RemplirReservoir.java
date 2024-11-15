@@ -20,6 +20,7 @@ public class RemplirReservoir extends Evenement{
         if(super.getRobot().getTailleReservoir() == super.getRobot().getVolActuelReservoir()){
             //Si le réservoir du robot est plein l'evenement est terminé
             super.setDone(true);
+            super.getRobot().setSearchingForWater(false);
         }
         System.out.println("Reservoir : " + super.robot.getVolActuelReservoir());
 

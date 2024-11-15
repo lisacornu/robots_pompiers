@@ -78,10 +78,6 @@ public abstract class  Dijkstra {
             potentiels.put(case2, addPotentielTemps(potentiels.get(case1), temps));
             sommets.add(case2);
             predecesseurs.put(case2, case1);
-            if(case2.getX() == 5 && case2.getY() == 5) {
-                System.out.println("case 1 : " + case1 + " et case 2 : " + case2);
-                System.out.println(predecesseurs.get(case2));
-            }
             chemin.updateTemps(temps);
         }
     }
@@ -95,7 +91,7 @@ public abstract class  Dijkstra {
     private static void dijkstra (Case startCase, Robot robot) {
         initDijkstra(startCase);
         sommets.add(startCase);
-        System.out.println("Case de départ : " +    startCase);
+
         while (!sommets.isEmpty()) {
             Case case1 = sommets.poll();
 
@@ -133,11 +129,10 @@ public abstract class  Dijkstra {
         initAttributes();
         dijkstra(startCase, robot);
 
-        System.out.println("le pred : " + predecesseurs.get(carte.getCase(5,5)) + "le faux pred " + predecesseurs.get(destination));
 
 
         ArrayList<Direction> descChemin = chemin.getDescChemin();
-        System.out.println(descChemin);
+
         Case pred = carte.getCase(destination.getY(), destination.getX());
 
 
@@ -155,7 +150,7 @@ public abstract class  Dijkstra {
         // inversion pour avoir la suite de direction à prendre depuis le reobot de départ
         Collections.reverse(descChemin);
         chemin.setDescChemin(descChemin);
-
+        System.out.println(chemin.getDescChemin());
         return chemin;
     }
 

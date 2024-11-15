@@ -23,6 +23,7 @@ public abstract class Robot {
     private boolean interventionEnCours = false; //booléen pour regarder si le robot intervient sur un feu
     private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste tous les evenements en attente que le robot doit effectuer
     private boolean evenementEnCours = false; //booléen pour verifier si le robot est en train d'effectuer une action
+    private boolean isSearchingForWater = false;
 
     public abstract boolean isFlying();
 
@@ -48,6 +49,7 @@ public abstract class Robot {
         this.volActuelReservoir = tailleReservoir;
     }
 
+
     // Constructeur robots pattes
     protected Robot (Case pos, double vitesseDefaut, int vitesseDeversement) {
         this.position = pos;
@@ -56,6 +58,14 @@ public abstract class Robot {
         this.vitesseDeversement = vitesseDeversement;
         this.tailleReservoir = Integer.MAX_VALUE;
         this.volActuelReservoir = Integer.MAX_VALUE;
+    }
+
+    public boolean isSearchingForWater() {
+        return isSearchingForWater;
+    }
+
+    public void setSearchingForWater(boolean searchingForWater) {
+        isSearchingForWater = searchingForWater;
     }
 
     public void addEvenementEnAttente(Evenement e) {this.evenementEnAttente.add(e);}
@@ -77,15 +87,14 @@ public abstract class Robot {
      * @param dest Case vers laquelle on cherche le plus court chemin
      * @return instance de Chemin (temps et suite de direction) représentant le plus cours chemin vers dest
      */
-    public Chemin getPlusCourtChemin (Case dest) {
-        return Dijkstra.getPlusCourtChemin(this.position, dest, this);
+    public Chemin getPlusCourtChemin (Case source, Case dest) {
+        return Dijkstra.getPlusCourtChemin(source, dest, this);
     }
 
     private int getNextDate(){
-        if (!evenementEnAttente.isEmpty()) {
-            return (int) this.evenementEnAttente.getLast().getDate() + (int) this.evenementEnAttente.getLast().getDuration() + 1;
-        }
-        return (int) Simulateur.getDateSimulation()+1;
+
+        if (Simulateur.getDateSimulation() == 0){return 1;}
+        return (int) Simulateur.getDateSimulation() + 1;
     }
 
     public void goToDestination (ArrayList<Direction> descChemin) {
@@ -93,7 +102,6 @@ public abstract class Robot {
         for (Direction dir : descChemin) {
             Deplacement deplacement = new Deplacement(date, this, dir);
             Simulateur.ajouteEvenement(deplacement);
-            date++;
         }
     }
 

@@ -1,11 +1,13 @@
 package brainrobot;
 
+import Simulation.Evenement;
 import acteur.Robot;
 import environment.*;
 import io.DonneeSimulation;
 import pathFinding.Chemin;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class basicBrain {
 
@@ -29,8 +31,15 @@ public class basicBrain {
     private void getInactiveRobots() {
         inactive_robots.clear();
         for (Robot robot : DonneeSimulation.getRobots()) {
-            if (!robot.isEvenementEnCours()){this.inactive_robots.add(robot);}
+            if (!robot.isEvenementEnCours() || robot.getVolActuelReservoir() == 0){
+                if (!robot.isSearchingForWater()){
+                    this.inactive_robots.add(robot);
+                    robot.getEvenementEnAttente().clear();
+                    robot.setSearchingForWater(true);
+                }
+            }
         }
+        System.out.println(inactive_robots);
     }
 
 
@@ -46,7 +55,7 @@ public class basicBrain {
                     cur_dist = Math.abs(x-i) + Math.abs(y-j) ;
                     if (cur_dist<nearest){
                         nearest = cur_dist;
-                        caseRet = carte.getCase(j,i);
+                        caseRet = carte.getCase(i,j);
                     }
                 }
             }
@@ -75,7 +84,7 @@ public class basicBrain {
         int cur_dist ;
         for (Case[] cases : this.couples_feux_eau){
             cur_dist = Math.abs(x-cases[0].getX()) + Math.abs(y-cases[0].getY());
-            if (cur_dist<nearest){nearest = cur_dist; caseRet = new Case[]{cases[0], cases[1]};}
+            if (cur_dist<nearest && cases[0].isOnFire()){nearest = cur_dist; caseRet = new Case[]{cases[0], cases[1]};}
         }
         return caseRet;
     }
@@ -103,9 +112,11 @@ public class basicBrain {
         getInactiveRobots();
         for (Robot robot : this.inactive_robots){
             if (robot.getVolActuelReservoir() == 0) {
+                System.out.println("je n'ai plus d'eau");
                 Case[] cases = getNearestWater(robot);
                 Case water = cases[1];
                 if (!robot.isFlying()){
+                    System.out.println("je ne suis pas un drone");
                     int max_dist = Integer.MAX_VALUE;
                     Direction rightdir = Direction.NORD;
                     for (Direction dir : Direction.values()){
@@ -114,26 +125,26 @@ public class basicBrain {
                             if (dist < max_dist){max_dist = dist; rightdir = dir;}
                         }
                     }
+                    System.out.println(rightdir);
                     water = carte.getVoisin(water,rightdir);
                 }
-                System.out.println(water);
+                System.out.println("mdr : "+water);
                 int pos_inc = findIncendieInListe(cases[0]);
                 this.robots_en_cours.get(pos_inc).add(robot);
-                robot.goToDestination(robot.getPlusCourtChemin(water).getDescChemin());
+                robot.goToDestination(robot.getPlusCourtChemin(robot.getPosition(),water).getDescChemin());
                 robot.remplirReservoir();
-                robot.goToDestination(robot.getPlusCourtChemin(cases[0]).getDescChemin());
+                System.out.println(cases[0]);
+                robot.goToDestination(robot.getPlusCourtChemin(water,cases[0]).getDescChemin());
                 robot.intervient();
             }
             else {
-                System.out.println("lolol");
+                System.out.println("issou");
                 Case[] cases = getNearestFire(robot);
                 int pos_inc = findIncendieInListe(cases[0]);
                 this.robots_en_cours.get(pos_inc).add(robot);
                 System.out.println(cases[0]);
-                Chemin chemin = robot.getPlusCourtChemin(carte.getCase(cases[0].getY(),cases[0].getX()));
-                System.out.println(chemin);
+                Chemin chemin = robot.getPlusCourtChemin(robot.getPosition(),carte.getCase(cases[0].getY(),cases[0].getX()));
                 robot.goToDestination(chemin.getDescChemin());
-                System.out.println("lololo3");
                 robot.intervient();
             }
         }
@@ -143,8 +154,11 @@ public class basicBrain {
         for (Incendie incendie : DonneeSimulation.getIncendies()) {
             if (incendie.getIntensite() == 0){
                 int ind_inc = findIncendieInListe(incendie.getPosition());
-                for (Robot robot : this.robots_en_cours.get(ind_inc)){
+                for (Iterator<Robot> it = this.robots_en_cours.get(ind_inc).iterator(); it.hasNext();)
+                {
+                    Robot robot = it.next();
                     robot.getEvenementEnAttente().clear();
+                    it.remove();
                 }
             }
         }
