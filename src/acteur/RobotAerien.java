@@ -12,6 +12,11 @@ abstract public class RobotAerien extends Robot{
         super(pos, speed, vitesseRemplissage, vitesseDeversement, tailleReservoir);
     }
 
+
+    public boolean isFlying(){
+        return true;
+    }
+
     @Override
     public final void remplirReservoir() {
         Carte carte = getCarte();

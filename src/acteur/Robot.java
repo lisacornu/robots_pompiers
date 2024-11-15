@@ -2,9 +2,11 @@ package acteur;
 
 import Simulation.Deplacement;
 import Simulation.Evenement;
+import Simulation.Intervention;
 import Simulation.Simulateur;
 import environment.Case;
 import environment.Direction;
+import io.DonneeSimulation;
 import pathFinding.Chemin;
 import pathFinding.Dijkstra;
 
@@ -21,6 +23,8 @@ public abstract class Robot {
     private boolean interventionEnCours = false; //booléen pour regarder si le robot intervient sur un feu
     private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste tous les evenements en attente que le robot doit effectuer
     private boolean evenementEnCours = false; //booléen pour verifier si le robot est en train d'effectuer une action
+
+    public abstract boolean isFlying();
 
     public ArrayList<Evenement> getEvenementEnAttente() {
         return evenementEnAttente;
@@ -77,13 +81,25 @@ public abstract class Robot {
         return Dijkstra.getPlusCourtChemin(this.position, dest, this);
     }
 
+    private int getNextDate(){
+        if (!evenementEnAttente.isEmpty()) {
+            return (int) this.evenementEnAttente.getLast().getDate() + (int) this.evenementEnAttente.getLast().getDuration() + 1;
+        }
+        return (int) Simulateur.getDateSimulation()+1;
+    }
+
     public void goToDestination (ArrayList<Direction> descChemin) {
-        int date = 1;
+        int date = getNextDate();
         for (Direction dir : descChemin) {
             Deplacement deplacement = new Deplacement(date, this, dir);
             Simulateur.ajouteEvenement(deplacement);
             date++;
         }
+    }
+
+    public void intervient(){
+        int date = getNextDate();
+        Simulateur.ajouteEvenement(new Intervention(date,this));
     }
 
     public boolean isInterventionEnCours() {return interventionEnCours;}

@@ -30,6 +30,9 @@ public abstract class Evenement  {
         return date;
     }
 
+    public double getDuration() {
+        return duration;
+    }
 
     public void setRobot(Robot robot) {
         this.robot = robot;

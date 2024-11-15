@@ -22,12 +22,6 @@ public class TestPartOne {
         try {
             GUISimulator gui = new GUISimulator(1000, 1000, Color.WHITE);
             Simulateur simulateur = new Simulateur(gui, args[0]);
-            ArrayList<Robot> robots = DonneeSimulation.getRobots();
-            Carte carte = DonneeSimulation.getCarte();
-            Robot robot = robots.get(2);
-            Chemin chemin = robot.getPlusCourtChemin(carte.getCase(25, 25));
-            robot.goToDestination(chemin.getDescChemin());
-
 
         }
         catch (FileNotFoundException e) {

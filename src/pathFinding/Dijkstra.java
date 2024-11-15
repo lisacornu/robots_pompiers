@@ -129,6 +129,7 @@ public abstract class  Dijkstra {
         dijkstra(startCase, robot);
 
         ArrayList<Direction> descChemin = chemin.getDescChemin();
+        System.out.println(chemin);
         Case pred = destination;
 
         // construction du chemin sous forme de suite de direction en partant de la fin

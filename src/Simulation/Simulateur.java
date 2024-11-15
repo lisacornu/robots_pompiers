@@ -143,6 +143,9 @@ public class Simulateur implements Simulable{
         ArrayList<Evenement> eventToAdd = new ArrayList<>();
 
 
+        DonneeSimulation.getBrain().resetOrders();
+        DonneeSimulation.getBrain().giveNewOrders();
+
         if(eventsToDate != null) {
             //Si la liste est non nulle, alors on appelle la methode execute de tous ces evenements
             for (Evenement evenement : eventsToDate) {
@@ -184,6 +187,9 @@ public class Simulateur implements Simulable{
     @Override
     public void restart() {
         ArrayList<Robot> robotsCopy = new ArrayList<Robot>(DonneeSimulation.getRobots());
+        for (ArrayList<Evenement> listEvent : Evenements.values()){
+            listEvent.clear();
+        }
 
         try {
             DonneeSimulation.getRobots().clear();

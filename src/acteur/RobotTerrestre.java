@@ -13,6 +13,10 @@ public abstract class RobotTerrestre extends Robot {
         super(pos, speed, vitesseRemplissage, vitesseDeversement, tailleReservoir);
     }
 
+    public boolean isFlying(){
+        return false;
+    }
+
     protected RobotTerrestre (Case pos, double speed, int vitesseDeversement) {
         super(pos, speed, vitesseDeversement);
     }

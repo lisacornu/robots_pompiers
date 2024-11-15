@@ -50,6 +50,7 @@ public class LecteurDonnees {
         donneeSimulation.setCarte(lecteur.initCarte());
         donneeSimulation.setIncendies(lecteur.lireIncendies(DonneeSimulation.getCarte()));
         donneeSimulation.setRobots(lecteur.lireRobots(DonneeSimulation.getCarte()));
+        DonneeSimulation.InitBrain();
 
         scanner.close();
         return donneeSimulation;

@@ -5,7 +5,7 @@ import environment.Carte;
 import environment.Incendie;
 
 import java.util.ArrayList;
-
+import brainrobot.basicBrain;
 
 
 
@@ -13,7 +13,15 @@ public class DonneeSimulation {
     private static Carte carte;
     private static ArrayList<Incendie> incendies;
     private static  ArrayList<Robot> robots;
+    private static basicBrain brain;
 
+    public static basicBrain getBrain() {
+        return brain;
+    }
+
+    public static void InitBrain() {
+        brain = new basicBrain();
+    }
 
     public static Carte getCarte() {
         return carte;
