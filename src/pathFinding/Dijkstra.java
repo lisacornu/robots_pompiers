@@ -78,6 +78,10 @@ public abstract class  Dijkstra {
             potentiels.put(case2, addPotentielTemps(potentiels.get(case1), temps));
             sommets.add(case2);
             predecesseurs.put(case2, case1);
+            if(case2.getX() == 5 && case2.getY() == 5) {
+                System.out.println("case 1 : " + case1 + " et case 2 : " + case2);
+                System.out.println(predecesseurs.get(case2));
+            }
             chemin.updateTemps(temps);
         }
     }
@@ -91,6 +95,7 @@ public abstract class  Dijkstra {
     private static void dijkstra (Case startCase, Robot robot) {
         initDijkstra(startCase);
         sommets.add(startCase);
+        System.out.println("Case de départ : " +    startCase);
         while (!sommets.isEmpty()) {
             Case case1 = sommets.poll();
 
@@ -98,6 +103,7 @@ public abstract class  Dijkstra {
                 if (carte.voisinExiste(case1, dir))
                     updatePotentiel(case1, carte.getVoisin(case1, dir), robot);
         }
+
     }
 
 
@@ -108,7 +114,6 @@ public abstract class  Dijkstra {
      * @return la direction
      */
     private static Direction getDirection (Case case1, Case case2) {
-        System.out.println(case1);
         for (Direction dir : Direction.values()) {
             if (carte.voisinExiste(case1, dir))
                 if (carte.getVoisin(case1, dir) == case2)
@@ -128,9 +133,13 @@ public abstract class  Dijkstra {
         initAttributes();
         dijkstra(startCase, robot);
 
+        System.out.println("le pred : " + predecesseurs.get(carte.getCase(5,5)) + "le faux pred " + predecesseurs.get(destination));
+
+
         ArrayList<Direction> descChemin = chemin.getDescChemin();
-        System.out.println(chemin);
-        Case pred = destination;
+        System.out.println(descChemin);
+        Case pred = carte.getCase(destination.getY(), destination.getX());
+
 
         // construction du chemin sous forme de suite de direction en partant de la fin
         if(predecesseurs.get(pred) == null) {
