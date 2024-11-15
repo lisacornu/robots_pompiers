@@ -35,7 +35,7 @@ public class RobotDrone extends RobotAerien {
 
     @Override
     public String getSpritePath() {
-        return "images/drone.png";
+        return "images/robot_drone_p.png";
     }
 
 

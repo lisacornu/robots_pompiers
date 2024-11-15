@@ -55,7 +55,7 @@ public class RobotChenille extends RobotTerrestre {
 
     @Override
     public String getSpritePath() {
-        return "images/chenille.png";
+        return "images/robot_chenille_p.png";
     }
 
 }

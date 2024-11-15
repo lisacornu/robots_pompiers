@@ -35,7 +35,7 @@ public class RobotRoue extends RobotTerrestre {
 
     @Override
     public String getSpritePath() {
-        return "images/roue.png";
+        return "images/robot_roue_p.png";
     }
 
 
