@@ -9,12 +9,13 @@ import static io.DonneeSimulation.getCarte;
 
 
 public class RobotRoue extends RobotTerrestre {
-
+    // d'après la spécification
     private static final double vitesseDefaut = 80; // km/h
     private static final int tailleReservoir = 5000;
     private static final int vitesseRemplissage = 10 * 60;
     private static final int vitesseDeversement = 100 / 5;
 
+    // Constructeur
     public RobotRoue(Case position, String vitesse) {
         super (
                 position,
@@ -25,6 +26,7 @@ public class RobotRoue extends RobotTerrestre {
         );
     }
 
+
     public void moveNextCase(Direction dir){
         Carte carte = getCarte();
         Case newCase = carte.getVoisin(this.position,dir);
@@ -32,6 +34,7 @@ public class RobotRoue extends RobotTerrestre {
             this.position = newCase;
         }
     }
+
 
     @Override
     public String getSpritePath() {

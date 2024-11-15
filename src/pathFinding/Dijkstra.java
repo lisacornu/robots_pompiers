@@ -27,6 +27,7 @@ public abstract class  Dijkstra {
         chemin = new Chemin();
     }
 
+
     /**
      * les potentiels de tout les sommets sont set à +infini(MAX_VALUE) excepté celui du sommet de départ qui set à 0
      * @param startCase case de départ
@@ -40,6 +41,7 @@ public abstract class  Dijkstra {
         potentiels.put(startCase, 0.0);
     }
 
+
     /**
      *
      * @param case1 case de départ
@@ -51,6 +53,7 @@ public abstract class  Dijkstra {
         return ((double) carte.getTailleCases() / (2 * robot.getSpeedOnCase(case1)) + (double) carte.getTailleCases() / (2 * robot.getSpeedOnCase(case2))
         )* 3.6;
     }
+
 
     /**
      *  Cette fonction gères le cas d'addition avec Double.MAX_VALUE pour éviter les dépassements
@@ -104,7 +107,7 @@ public abstract class  Dijkstra {
 
 
     /**
-     *      Retourne la direction vers laquelle se diriger pour aller de case1 à case2
+     * Retourne la direction vers laquelle se diriger pour aller de case1 à case2
      * @param case1 case de départ
      * @param case2 case d'arrivée
      * @return la direction
@@ -118,6 +121,7 @@ public abstract class  Dijkstra {
         throw new IllegalArgumentException("Impossible de trouver la direction du prédécesseur");
     }
 
+
     /**
      * Obtiens la plus courte de distance entre startCase et destination pour le robot robot
      * @param startCase case de départ
@@ -129,17 +133,12 @@ public abstract class  Dijkstra {
         initAttributes();
         dijkstra(startCase, robot);
 
-
-
         ArrayList<Direction> descChemin = chemin.getDescChemin();
-
         Case pred = carte.getCase(destination.getY(), destination.getX());
 
-
         // construction du chemin sous forme de suite de direction en partant de la fin
-        if(predecesseurs.get(pred) == null) {
+        if(predecesseurs.get(pred) == null)
             throw new NullPointerException("La case qui veut être atteinte n'est pas une case accessible par le robot");
-        }
 
         while (pred != startCase) {
             // direction du prédecesseur vers la case actuelle
@@ -150,7 +149,6 @@ public abstract class  Dijkstra {
         // inversion pour avoir la suite de direction à prendre depuis le reobot de départ
         Collections.reverse(descChemin);
         chemin.setDescChemin(descChemin);
-        System.out.println(chemin.getDescChemin());
         return chemin;
     }
 

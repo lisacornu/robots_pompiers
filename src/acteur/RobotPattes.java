@@ -8,10 +8,11 @@ import environment.NatureTerrain;
 import static io.DonneeSimulation.getCarte;
 
 public class RobotPattes extends RobotTerrestre{
-
+    // d'après la spécification
     private static final double vitesseDefaut = 30; // km/h
     private static final int vitesseDeversement = 10;
 
+    // Constructeur
     public RobotPattes(Case position) {
         super(position, vitesseDefaut, vitesseDeversement);
     }
@@ -34,13 +35,14 @@ public class RobotPattes extends RobotTerrestre{
         return "images/robot_pattes_p.png";
     }
 
+
     @Override
     public double getSpeedOnCase(Case pos) {
         NatureTerrain natureTerrrainCase = pos.getNatureTerrain();
         if (natureTerrrainCase == NatureTerrain.EAU)
             return 1/Double.MAX_VALUE;
         else if (natureTerrrainCase == NatureTerrain.ROCHE)
-            return 10;  // km/h
+            return 10;
         else
             return this.vitesseDeplacement;
     }

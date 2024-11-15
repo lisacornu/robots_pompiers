@@ -29,9 +29,11 @@ public class Simulateur implements Simulable{
     private Image textureIncendie;
 
     private static long dateSimulation;
-    private static final HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>(); //On utilise une HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements
+    // HashMap avec comme clés les dates d'évenements et comme valeur une liste d'évenements,
+    // afin d'avoir accès à tout les evenements ayant lieu à une certaine date
+    private static final HashMap<Long,ArrayList<Evenement>> Evenements = new HashMap<>();
 
-                                                                             //Comme cela on a directement tous les évenements associés à la date.
+
     public static void ajouteEvenement(Evenement e){
         Evenements.computeIfAbsent(e.date, k -> new ArrayList<Evenement>());
         Evenements.get(e.date).add(e);
@@ -47,13 +49,17 @@ public class Simulateur implements Simulable{
 
     public static void setDateSimulation(long dateSimulation) {Simulateur.dateSimulation = dateSimulation;}
 
-
     public HashMap<Long, ArrayList<Evenement>> getEvenements() {
         return Evenements;
     }
+
     private void incrementeDate(){
         dateSimulation++;
     }
+
+    /**
+     * @return boolean indiquant si la simulation est terminée
+     */
     private boolean simulationTerminee(){
         Set<Long> dates = Evenements.keySet();
         for(Long date:dates){

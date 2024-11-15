@@ -4,6 +4,11 @@ import environment.Direction;
 
 import java.util.ArrayList;
 
+/**
+ * Représentation d'un chemin :
+ * - temps pour le parcourir
+ * - suite de direction le représentant
+ */
 public class Chemin {
 
     private double temps = 0;

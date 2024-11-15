@@ -30,7 +30,12 @@ public class Carte {
     }
 
 
-
+    /**
+     * permets de set un case particulière de la matrice de case, utile à la lecture des données
+     * @param lig ligne position
+     * @param col colonne position
+     * @param nature nature du terrain
+     */
     public void setCaseMatrice (int lig, int col, NatureTerrain nature) {
         this.matriceCase[lig][col] = new Case(nature,lig, col);
     }
@@ -39,6 +44,13 @@ public class Carte {
         return this.matriceCase[lig][col];
     }
 
+
+    /**
+     * Vérifie qu'un voisin existe à la case src càd que la case src soit pas en bord de carte
+     * @param src case dont on cherche le voisin
+     * @param dir direction dans laquelle on cherche le voisin
+     * @return boolean
+     */
     public boolean voisinExiste (Case src, Direction dir) {
         boolean voisinEx = false;
         switch (dir) {
@@ -50,6 +62,12 @@ public class Carte {
         return voisinEx;
     }
 
+
+    /**
+     * @param src case dont on veux le voisin
+     * @param dir direction du voisin
+     * @return Case voisine de src dans la direction dir
+     */
     public  Case getVoisin(Case src, Direction dir) {
         if (!voisinExiste(src, dir))
             throw new IllegalArgumentException("La case direction " + dir + " de la case (" + src.getX() + "," + src.getY() + ") n'existe pas.");
@@ -62,6 +80,10 @@ public class Carte {
         }
     }
 
+
+    /**
+     * Fonction d'écriture de la matrice (debug)
+     */
     public void printMatriceCase () {
         for (int i = 0; i<this.nblignes; i++) {
             for (Case c : this.matriceCase[i]) {
@@ -69,6 +91,5 @@ public class Carte {
             }
         }
     }
-
 
 }
