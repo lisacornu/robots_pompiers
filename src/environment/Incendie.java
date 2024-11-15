@@ -2,7 +2,7 @@ package environment;
 
 public class Incendie {
     private Case position;
-    private int intensite; // nb de litre nécéssaire pour éteindre
+    private int intensite; // nombre de litre nécéssaire pour éteindre l'incendie
 
     public Incendie(Case position, int intensite) {
         this.position = position;

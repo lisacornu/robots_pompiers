@@ -8,18 +8,20 @@ public abstract class Evenement  {
     protected Robot robot;
     protected boolean Done;
 
+
+    public Evenement(long date, Robot robot) {
+        this.date = date;
+        this.robot = robot;
+        this.Done = false;
+    }
+
+
     public boolean isDone() {
         return Done;
     }
 
     public void setDone(boolean done) {
         Done = done;
-    }
-
-    public Evenement(long date, Robot robot) {
-        this.date = date;
-        this.robot = robot;
-        this.Done = false;
     }
 
     public Robot getRobot() {
@@ -39,7 +41,7 @@ public abstract class Evenement  {
     }
 
     /**
-     * S'occupe d'éxécuter l'évenment en question
+     * S'occupe d'éxécuter l'événement en question
      */
     public abstract void execute();
 

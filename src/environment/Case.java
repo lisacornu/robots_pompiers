@@ -1,6 +1,6 @@
 package environment;
-import java.lang.Math;
 
+import java.lang.Math;
 
 public class Case {
     private final int x;
@@ -9,20 +9,6 @@ public class Case {
     private boolean isOnFire;
     private String imagePath;
 
-    /**
-     * retourne un nombre aléatoire entre 0 et max inclus
-     */
-    private int randInt(int max){
-        return (int)(Math.random()*(max+1));
-    }
-
-    public boolean isOnFire() {
-        return isOnFire;
-    }
-
-    public void setOnFire(boolean onFire) {
-        isOnFire = onFire;
-    }
 
     public Case(NatureTerrain natureTerrain, int y, int x) {
         this.natureTerrain = natureTerrain;
@@ -38,9 +24,20 @@ public class Case {
         return y;
     }
 
+    public boolean isOnFire() {
+        return isOnFire;
+    }
+
+    public void setOnFire(boolean onFire) {
+        isOnFire = onFire;
+    }
 
     public NatureTerrain getNatureTerrain() {
         return natureTerrain;
+    }
+
+    public String getImagePath() {
+        return imagePath;
     }
 
     public void setImagePath() {
@@ -55,8 +52,13 @@ public class Case {
         this.imagePath = imagePath;
     }
 
-    public String getImagePath() {
-        return imagePath;
+
+    /**
+     * @param max maximum du nombre aléatoire à tirer
+     * @return random int entre 0 et max
+     */
+    private int randInt(int max){
+        return (int)(Math.random()*(max+1));
     }
 
 

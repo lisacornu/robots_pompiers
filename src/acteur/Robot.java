@@ -6,7 +6,6 @@ import Simulation.Intervention;
 import Simulation.Simulateur;
 import environment.Case;
 import environment.Direction;
-import io.DonneeSimulation;
 import pathFinding.Chemin;
 import pathFinding.Dijkstra;
 
@@ -14,15 +13,15 @@ import java.util.ArrayList;
 
 public abstract class Robot {
     protected Case position;
-    protected double vitesseDeplacement;            // faire évoluer en hashmap ? Pour prendre en compte le changement de vitesse en fonction du chemin
-    protected int volActuelReservoir;                // a quel point le volActuelReservoir est rempli, sa taille se trouve dans les classes filles
+    protected double vitesseDeplacement;
+    protected int volActuelReservoir;
     protected int tailleReservoir;
-
     protected int vitesseRemplissage;
     protected int vitesseDeversement;
-    private boolean interventionEnCours = false; //booléen pour regarder si le robot intervient sur un feu
-    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste tous les evenements en attente que le robot doit effectuer
-    private boolean evenementEnCours = false; //booléen pour verifier si le robot est en train d'effectuer une action
+
+    private boolean interventionEnCours = false; //est-ce que le robot est en train d'intervenir sur un feu
+    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste les prochains evenements que le robot doit effectuer
+    private boolean evenementEnCours = false; //est-ce que le robot est en train d'effectuer une action
     private boolean isSearchingForWater = false;
 
     public abstract boolean isFlying();
@@ -39,7 +38,14 @@ public abstract class Robot {
         this.evenementEnCours = evenementEnCours;
     }
 
-    // Constructeur robots classiques
+    /**
+     * Constructeur classiques pour robots
+     * @param pos position initiale du robot
+     * @param speed vitesse lue dans le fichier
+     * @param vitesseRemplissage vitesse de remplissage du robot
+     * @param vitesseDeversement vitesse vidage de l'eau
+     * @param tailleReservoir taille du réservoir
+     */
     protected Robot (Case pos, double speed, int vitesseRemplissage, int vitesseDeversement,int tailleReservoir) {
         this.position = pos;
         this.vitesseDeplacement = speed;
@@ -50,7 +56,12 @@ public abstract class Robot {
     }
 
 
-    // Constructeur robots pattes
+    /**
+     * Constucteur pour robot à pattes car réservoir spécial
+     * @param pos position initiale
+     * @param vitesseDefaut vitesse de déplacement du robot
+     * @param vitesseDeversement vitesse de vidage du robot
+     */
     protected Robot (Case pos, double vitesseDefaut, int vitesseDeversement) {
         this.position = pos;
         this.vitesseRemplissage = 0;
@@ -70,18 +81,22 @@ public abstract class Robot {
 
     public void addEvenementEnAttente(Evenement e) {this.evenementEnAttente.add(e);}
 
+
+    /**
+     * Si le robot est en attente, alors on ajoute l'evenement e dans la liste des evenements en cours et on enlève
+     * le robot de son état d'attente, sinon on ajoute e à la liste d'attente des actions du robot
+     * @param e Evenement à effectuer
+     */
     public void setEvenement(Evenement e) {
         if(!isEvenementEnCours()) {
-            //Si le robot est en attente, alors on ajoute l'evenement e dans la liste des evenements en cours
-            //et on enlève le robot de son état d'attente
             Simulateur.getExecutingEvent().add(e);
             this.setEvenementEnCours(true);
         }
         else{
-            //Sinon, on ajoute e à la liste d'attente des actions du robot.
             this.addEvenementEnAttente(e);
         }
     }
+
 
     /**
      * @param dest Case vers laquelle on cherche le plus court chemin
@@ -91,12 +106,17 @@ public abstract class Robot {
         return Dijkstra.getPlusCourtChemin(source, dest, this);
     }
 
-    private int getNextDate(){
 
-        if (Simulateur.getDateSimulation() == 0){return 1;}
+    private int getNextDate(){
+        if (Simulateur.getDateSimulation() == 0) return 1;
         return (int) Simulateur.getDateSimulation() + 1;
     }
 
+
+    /**
+     * Programme la suite d'évènements déplacement permettant au robot de suivre la suite de direction
+     * @param descChemin Tableau de direction représentant le chemin à parcourir
+     */
     public void goToDestination (ArrayList<Direction> descChemin) {
         int date = getNextDate();
         for (Direction dir : descChemin) {
@@ -105,13 +125,47 @@ public abstract class Robot {
         }
     }
 
+
+    /**
+     * Déclenche une intervention sur un feu
+     */
     public void intervient(){
         int date = getNextDate();
         Simulateur.ajouteEvenement(new Intervention(date,this));
     }
 
+
+    /**
+     * Remplir réservoir si conditions remplies
+     */
+    public abstract void remplirReservoir();
+
+
+    /**
+     * @return Le chemin correspondant au sprite du robot à afficher dans le simulateur
+     */
+    public abstract String getSpritePath();
+
+
+    /**
+     * Fonction utile au calcul de plus court chemin
+     * @param pos case sur laquelle on cherche la vitesse de ce robot
+     * @return vitesse sur la case pos
+     */
+    public abstract double getSpeedOnCase(Case pos);
+
+
+    /**
+     * Déplace sur la case voisine dans la direction dir et update la vitesse du robot
+     * @param dir direction dans laquelle se déplacer sur la case voisine
+     */
+    public abstract void moveNextCase (Direction dir);
+
+
+    // getters et setters en dessous
+
     public boolean isInterventionEnCours() {return interventionEnCours;}
-    public void     setInterventionEnCours(boolean interventionEnCours) {this.interventionEnCours = interventionEnCours;}
+    public void setInterventionEnCours(boolean interventionEnCours) {this.interventionEnCours = interventionEnCours;}
 
     public int getVitesseDeversement() {
         return vitesseDeversement;
@@ -139,20 +193,10 @@ public abstract class Robot {
     void setPosition (Case case_obj){
         this.position = case_obj;
     }
-    public abstract void moveNextCase (Direction dir);
 
     public int getTailleReservoir() {
         return tailleReservoir;
     }
 
-    public abstract void remplirReservoir();
-    public abstract String getSpritePath();
-
-    /**
-     * Permettre de connaître la vitesse du robot sur la case pos, ce qui dépend du type de robot
-     * @param pos case désigné
-     * @return vitesse sur la case pos
-     */
-    public abstract double getSpeedOnCase(Case pos);
 }
 

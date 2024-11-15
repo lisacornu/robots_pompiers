@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import brainrobot.basicBrain;
 
 
-
+/**
+ * Classe globale comprenant toutes les données de la simulation
+ */
 public class DonneeSimulation {
     private static Carte carte;
     private static ArrayList<Incendie> incendies;

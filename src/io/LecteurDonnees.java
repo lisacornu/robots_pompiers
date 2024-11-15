@@ -12,35 +12,10 @@ import java.util.*;
 import java.util.zip.DataFormatException;
 
 
-
-/**
- * Lecteur de cartes au format spectifié dans le sujet.
- * Les données sur les cases, robots puis incendies sont lues dans le fichier,
- * puis simplement affichées.
- * A noter: pas de vérification sémantique sur les valeurs numériques lues.
- *
- * IMPORTANT:
- *
- * Cette classe ne fait que LIRE les infos et les afficher.
- * A vous de modifier ou d'ajouter des méthodes, inspirées de celles présentes
- * (ou non), qui CREENT les objets au moment adéquat pour construire une
- * instance de la classe DonneesSimulation à partir d'un fichier.
- *
- * Vous pouvez par exemple ajouter une méthode qui crée et retourne un objet
- * contenant toutes les données lues:
- *    public static DonneesSimulation creeDonnees(String fichierDonnees);
- * Et faire des méthode creeCase(), creeRobot(), ... qui lisent les données,
- * créent les objets adéquats et les ajoutent ds l'instance de
- * DonneesSimulation.
- */
 public class LecteurDonnees {
 
-
     /**
-     * Lit et affiche le contenu d'un fichier de donnees (cases,
-     * robots et incendies).
-     * Ceci est méthode de classe; utilisation:
-     * LecteurDonnees.lire(fichierDonnees)
+     * Lit fichierDonnees et créé les instances de classes correspondantes au contenu du fichier
      * @param fichierDonnees nom du fichier à lire
      */
     public static DonneeSimulation lire (String fichierDonnees) throws FileNotFoundException, DataFormatException {
@@ -55,7 +30,9 @@ public class LecteurDonnees {
         scanner.close();
         return donneeSimulation;
     }
-    
+
+
+    // Remets à zéro les données de la simulation en re parcourant le fichier
     public static void resetDonneeSimulation(DonneeSimulation donneeSimulation ,String fichierDonnees) throws FileNotFoundException, DataFormatException {
         LecteurDonnees lecteur = new LecteurDonnees(fichierDonnees);
         donneeSimulation.setCarte(lecteur.initCarte());
@@ -66,7 +43,6 @@ public class LecteurDonnees {
     }
 
 
-    // Tout le reste de la classe est prive!
 
     private static Scanner scanner;
 
@@ -142,7 +118,7 @@ public class LecteurDonnees {
 
     /**
      * Lit et créé chaque objet incendie
-     * @param carte
+     * @param carte carte de la simulation
      */
     private Incendie createIncendie(Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -168,6 +144,7 @@ public class LecteurDonnees {
 
     /**
      * Lit et affiche les donnees des robots.
+     * @param carte carte de la simulation
      */
     private ArrayList<Robot> lireRobots(Carte carte) throws DataFormatException {
         ignorerCommentaires();
@@ -186,18 +163,18 @@ public class LecteurDonnees {
 
     /**
      * Lit et affiche les donnees du i-eme robot.
-     * @param carte
+     * @param carte carte de la simulation
      */
     private Robot createRobot(Carte carte) throws DataFormatException {
         ignorerCommentaires();
 
         try {
-            Case position = carte.getCase(scanner.nextInt(), scanner.nextInt()); // les scanner.nextInt vont respectivement recup la ligne et la colonne
+            // les scanner.nextInt vont respectivement recup la ligne et la colonne
+            Case position = carte.getCase(scanner.nextInt(), scanner.nextInt());
             TypeRobot type = TypeRobot.valueOf(scanner.next());
 
             // lecture eventuelle d'une vitesse du robot (entier)
             String s = scanner.findInLine("(\\d+)");	// 1 or more digit(s) ?
-            // pour lire un flottant:    ("(\\d+(\\.\\d+)?)");
 
             return switch (type) {
                 case ROUES -> {
