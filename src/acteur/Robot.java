@@ -6,6 +6,7 @@ import Simulation.Intervention;
 import Simulation.Simulateur;
 import environment.Case;
 import environment.Direction;
+import io.DonneeSimulation;
 import pathFinding.Chemin;
 import pathFinding.Dijkstra;
 
@@ -18,11 +19,11 @@ public abstract class Robot {
     protected int tailleReservoir;
     protected int vitesseRemplissage;
     protected int vitesseDeversement;
+    private boolean interventionEnCours = false; //booléen pour regarder si le robot intervient sur un feu
+    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste tous les evenements en attente que le robot doit effectuer
+    private boolean evenementEnCours = false; //booléen pour verifier si le robot est en train d'effectuer une action
 
-    private boolean interventionEnCours = false; //est-ce que le robot est en train d'intervenir sur un feu
-    private final ArrayList<Evenement> evenementEnAttente = new ArrayList<>();  //Liste les prochains evenements que le robot doit effectuer
-    private boolean evenementEnCours = false; //est-ce que le robot est en train d'effectuer une action
-    private boolean isSearchingForWater = false;
+
 
     public abstract boolean isFlying();
 
@@ -71,13 +72,6 @@ public abstract class Robot {
         this.volActuelReservoir = Integer.MAX_VALUE;
     }
 
-    public boolean isSearchingForWater() {
-        return isSearchingForWater;
-    }
-
-    public void setSearchingForWater(boolean searchingForWater) {
-        isSearchingForWater = searchingForWater;
-    }
 
     public void addEvenementEnAttente(Evenement e) {this.evenementEnAttente.add(e);}
 
@@ -107,7 +101,7 @@ public abstract class Robot {
     }
 
 
-    private int getNextDate(){
+    public int getNextDate(){
         if (Simulateur.getDateSimulation() == 0) return 1;
         return (int) Simulateur.getDateSimulation() + 1;
     }
@@ -117,7 +111,7 @@ public abstract class Robot {
      * Programme la suite d'évènements déplacement permettant au robot de suivre la suite de direction
      * @param descChemin Tableau de direction représentant le chemin à parcourir
      */
-    public void goToDestination (ArrayList<Direction> descChemin) {
+    public void goToDestination(ArrayList<Direction> descChemin) {
         int date = getNextDate();
         for (Direction dir : descChemin) {
             Deplacement deplacement = new Deplacement(date, this, dir);

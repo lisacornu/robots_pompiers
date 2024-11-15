@@ -18,8 +18,9 @@ abstract public class RobotAerien extends Robot{
     @Override
     public final void remplirReservoir() {
         Carte carte = DonneeSimulation.getCarte();
-        if (this.position.getNatureTerrain() == NatureTerrain.EAU)
-            this.volActuelReservoir = Math.min(this.getVolActuelReservoir() + this.getVolActuelReservoir() * this.getVitesseRemplissage() , this.getTailleReservoir());
+        if (this.position.getNatureTerrain() == NatureTerrain.EAU) {
+            this.volActuelReservoir = Math.min(this.getVolActuelReservoir() + this.getVitesseRemplissage(), this.getTailleReservoir());
+        }
     }
 
 }

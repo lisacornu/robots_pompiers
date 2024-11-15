@@ -57,6 +57,7 @@ public class Intervention extends Evenement {
         if(super.robot.getVolActuelReservoir() == 0){
             super.robot.setInterventionEnCours(false);
             super.setDone(true);
+            super.getRobot().getEvenementEnAttente().clear();
         }
 
         // On diminue l'intensité de l'Incendie
@@ -67,6 +68,7 @@ public class Intervention extends Evenement {
             currentCase.setOnFire(false);
             super.setDone(true);
         }
+
 
     }
 

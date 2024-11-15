@@ -15,7 +15,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.zip.DataFormatException;
 
-
+import static java.lang.Thread.sleep;
 
 
 public class Simulateur implements Simulable{
@@ -61,9 +61,8 @@ public class Simulateur implements Simulable{
      * @return boolean indiquant si la simulation est terminée
      */
     private boolean simulationTerminee(){
-        Set<Long> dates = Evenements.keySet();
-        for(Long date:dates){
-            if (date > dateSimulation){
+        for(Incendie incendie : DonneeSimulation.getIncendies()){
+            if(incendie.getPosition().isOnFire()){
                 return false;
             }
         }
@@ -102,7 +101,7 @@ public class Simulateur implements Simulable{
                 gui.addGraphicalElement(new ImageElement(x,y,matriceCase[i][j].getImagePath(),width_case,height_case, null));
                 //Dessine les incendies
                 for(Incendie incendie:incendies){
-                    if(incendie.getPosition() == matriceCase[i][j]){
+                    if(incendie.getPosition() == matriceCase[i][j] && incendie.getPosition().isOnFire()){
                         gui.addGraphicalElement(new ImageElement(x,y,"images/feu.png",width_case,height_case, null));
                     }
                 }
@@ -144,13 +143,10 @@ public class Simulateur implements Simulable{
             System.out.println("START");
         }
 
-        for (Robot robot : DonneeSimulation.getRobots()) {
-            System.out.println(robot.getEvenementEnAttente());
-        }
-        System.out.println("debut boucle brain");
         DonneeSimulation.getBrain().resetOrders();
         DonneeSimulation.getBrain().giveNewOrders();
-        System.out.println("fin bucle brain");
+
+
 
         incrementeDate();
         HashMap<Long, ArrayList<Evenement>> evenements = this.getEvenements();
@@ -181,7 +177,8 @@ public class Simulateur implements Simulable{
                     //Sinon, on ajoute le premier evenement de la liste evenementEnAttente et on le rajoute
                     //à la liste des evenements en cours, on actualise la date de début d'execution.
                     //et enfin, on le supprime de la liste des evenements en cours
-                    Evenement evenementAjouter =  evenement.getRobot().getEvenementEnAttente().get(0);
+                    Evenement evenementAjouter =  evenement.getRobot().getEvenementEnAttente().getFirst();
+
                     evenementAjouter.setDate(getDateSimulation());
                     eventToAdd.add(evenementAjouter);
                     evenement.getRobot().getEvenementEnAttente().remove(evenementAjouter);
@@ -191,6 +188,16 @@ public class Simulateur implements Simulable{
         //Finalement on ajoute les nouveaux evenements à executer dans la liste des evenements en cours.
         executingEvent.addAll(eventToAdd);
         draw();
+        if(simulationTerminee()){
+            System.out.println("\n\n Simulation terminée. \n La simulation se resetera dans 5 secondes\n");
+            try {
+                sleep(5000);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+            restart();
+        }
+
     }
 
 
